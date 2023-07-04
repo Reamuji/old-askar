@@ -1,22 +1,36 @@
+<!-- This website is full of questionable logic and spagetti code  -->
+<!-- dont tell me i havent warned ya -->
 <!DOCTYPE html>
 <html>
     <head>
+        <script>
+            const gambar_pas_diklik_aja = true;
+            const waktu_ngilang = 1000;
+            const dark_mode = true;
+        </script>
         <style>
             :root{
                 --topMargin: 100px;
                 --sideSpace: 25%;
+                --photoMaxSize: 30vw;
                 --photoXSpace: calc(100% - var(--sideSpace)*2);
-                --photoYSpace: calc(200vh - var(--topMargin) - 100px);
-                --photoMaxSize: 400px;
+                --photoYSpace: calc(300vh - var(--topMargin) - 100px);
+                --photoMaxSize: 30vw;
 
                 --photoZoomTime: 0.35s;
-                
-                /* --photoXSpace:100%;
-                --sideSpace: calc(50% - var(--photoXSpace)/2); */
+
                 --scroll: 0px;
+                --scrollNum: 0;
 
                 --bgColor:#010001;
                 --lineColor:#fff;
+
+                --svgHeight: 2000px;
+                --svgWidth: 4000px;
+            }
+
+            body{
+                background-color: var(--bgColor);
             }
             
             #test{
@@ -36,17 +50,13 @@
                 z-index: var(--zLayer);
                 transform-origin: top left;
             }
-            /* .imgCenter  img:not(:hover){
-                opacity: 0.5;
-            } */
             .imgCenter  img:hover{
                 position: relative;
-                transform: scale(120%, 120%);
+                transform: scale(120%, 120%) rotateY(0deg);
                 z-index:100;
-
                 /* max-width:var(--photoMaxSize)!important;
-                height::var(--photoMaxSize)!important;
-                transform-origin: top center; */
+                height::var(--photoMaxSize)!important; */
+                transform-origin: top center;
             }
 
             .sticky {
@@ -57,31 +67,53 @@
             #imgContainer{
                 z-index:1;
             }
+
+            svg{
+                background-color: var(--bgColor);
+                transform: scale(var(--svgScale)); /* Set the desired scale factor */
+                height: 200vh;
+                width: 101vw;
+                image-rendering: optimizeSpeed; /* Older versions of Chrome and Safari */
+                image-rendering: -moz-crisp-edges; /* Firefox */
+                image-rendering: -webkit-optimize-contrast; /* Webkit (Chrome, Safari) */
+                image-rendering: -o-crisp-edges; /* Opera */
+                image-rendering: pixelated; CSS4
+                -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+            }
+            polyline{
+                transform: scale(var(--svgScale)); /* Set the desired scale factor */
+            }
         </style>
     </head>
     <body>
         <div id="imgContainer">
         </div>
         <div id="canvasWrapper" style="overflow: hidden;">
-            <!-- <canvas id="myCanvas" width="1000" height="1000" shape-rendering="crispEdges" shape-rendering="pixelated"></canvas> -->
-            <svg id="mySvg" shape-rendering="pixelated" width="2000" height="4000" style="background-color: var(--bgColor);">
+            <svg id="mySvg" shape-rendering="crispEdges">
                 <polyline points=""
-                style="fill:none;stroke:var(--lineColor);stroke-width:0.5"shape-rendering="pixelated" />
+                style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />
             </svg>
-        <div style="position: absolute; top: 200vh;">
-            avaancoeg 
-            <!-- buat stretch doang njir -->
-        </div>
-        
         </div>
     </body>
 
     <script>
+        //css var edit
         let root = document.documentElement;
+		const setValue      = (varName,value)   => root.style.setProperty(varName, value);
+        const getValue      = (varName)         => getComputedStyle(root).getPropertyValue(varName);
+
         const updateScrollValue = (event) => {
-            root.style.setProperty('--scroll', window.scrollY + "px");
+            setValue('--scroll', window.scrollY + "px");
+            setValue('--scrollNum', window.scrollY);
         };
         window.addEventListener("scroll", updateScrollValue);
+        
+        if(!dark_mode){
+            setValue('--bgColor', "#fff");
+            setValue('--lineColor', "#010001");
+        }
+        // setValue('--svgScale', zoomCanvas);
+
 
         const placeholder = ['https://fastly.picsum.photos/id/159/200/300.jpg?hmac=CC6862WSVsX6F74hcV30UzS4czPi0LO6zPJDaEaQeFU','https://fastly.picsum.photos/id/670/200/300.jpg?hmac=Ib58hZuwIQfcFZjEvKKi0p-j4GN1BGIkE7wLsa95Xk4','https://fastly.picsum.photos/id/674/200/300.jpg?hmac=kS3VQkm7AuZdYJGUABZGmnNj_3KtZ6Twgb5Qb9ITssY','https://fastly.picsum.photos/id/43/200/300.jpg?hmac=F_cVhLISpNmZ9wjirHfMJgX9rQzMYJbJE1xzfwmV36c','https://fastly.picsum.photos/id/593/200/300.jpg?hmac=q_vr9ioph2Tk-PMmB5PpX7uS2nSp2wxpYTktjucc1yQ','https://fastly.picsum.photos/id/958/200/300.jpg?hmac=oCwv3AFzS5VqZv3nvDJ3H5RzcDH2OiL2g-GGwWL5fsI','https://fastly.picsum.photos/id/100/300/200.jpg?hmac=ONiK6jtlF-h6EIOqhPFFyhyjF3SFqQ10MYWslZmlNyI','https://fastly.picsum.photos/id/456/300/200.jpg?hmac=_IJQ81tU1tfr0xGnGGNk3ka0PPuBBq0_AjFBsUd2ADs','https://fastly.picsum.photos/id/1013/300/200.jpg?hmac=OsBpo9MAg85j7O6gHzshfVJT3uWhz7-GW1piDibAqPA'];
         const gambarAskar = ['https://pbs.twimg.com/media/Fzt3YmfX0AIUbwl?format=jpg&name=large','https://pbs.twimg.com/media/FzdDMmYaIAAttfr?format=jpg&name=4096x4096','https://pbs.twimg.com/media/Fy4KzpPaAAAnq1E?format=jpg&name=4096x4096'];
@@ -94,23 +126,47 @@
         randomInt = (start,end) =>  Math.floor((start + Math.random() * (end-start)));
         // gambarRandom = ()=> `https://picsum.photos/${randomInt(100,300)}/${randomInt(100,300)}`;
 
-        // =========== Prod =============
         listGambar.forEach((gambar,index,arr) => {
             const zLayer = randomInt(25,100);
             const scrollSpeed = zLayer/-75;
             let thisPhotoMaxSize = `calc(var(--photoMaxSize) * ${0.1 + zLayer/75})`;
             // thisPhotoMaxSize = `var(--photoMaxSize)`;
+            const randomY = random(0,1);
             img += `
-                <span class="imgCenter" style = "--zLayer:${zLayer}; 
-                    top: calc(var(--topMargin) + var(--scroll)*${scrollSpeed} + var(--photoYSpace)*${random(0,1)});  
+                <span class="imgCenter" style = "
+                    --zLayer:${zLayer};
+                    --randomY: ${randomY};
+                    --photoY: calc(var(--photoYSpace)*var(--randomY));
+                    --yPos: calc(var(--topMargin) + var(--scroll)*${scrollSpeed} + var(--photoY));
+                    --witdhMultiplier:  0;
+                    z-index:${zLayer};
+                    top: var(--yPos);  
                     left: calc(var(--sideSpace) + var(--photoXSpace)*${random(0,1)});">
                     <img src="${gambar}" style="
-                        max-width: var(--photoMaxSize);
+                        max-width: var(--photoMaxSize) * ;
                         max-height: var(--photoMaxSize);
                         width: auto;
-                        height: auto;">
+                        height: auto;
+                        i: calc(var(--scrollNum)*1deg);
+                        transform: rotateY(calc(20deg+20deg));">
                 </span>`
         });
+        for(let i=0;i<21;i++){
+            const logo = `D://Project//Web//portoAskar//logo//random//${i+1}.png`
+            const zLayer = randomInt(25,100);
+            const scrollSpeed = zLayer/-75;
+            img += `
+                <img src="${logo}" style="
+                    --photoY: calc(var(--photoYSpace)*${random(0,1)});
+                    --yPos: calc(var(--topMargin) + var(--scroll)*${scrollSpeed} + var(--photoY));
+                    position: absolute;
+                    top: var(--yPos);  
+                    left: calc(var(--sideSpace) + var(--photoXSpace)*${random(0,1)});
+                    z-index:${zLayer};
+                    max-width: 10vw;
+                    max-height: 10vw;
+                    mix-blend-mode: difference;">`
+        }
         document.getElementById("imgContainer").innerHTML = img;
         console.log(img);
 
@@ -118,7 +174,7 @@
 
         let mousePos = [];
         let mouseStillDown = false;
-        const drawOnMouseDown = false;
+        const drawOnMouseDown = gambar_pas_diklik_aja;
         const lineMinLen = 0;
 
         let lastPos = [-999,-999];
@@ -127,8 +183,8 @@
                 return;
             }
             const rect = svg.getBoundingClientRect();
-            const mouseX = evt.clientX - rect.left;
-            const mouseY = evt.clientY - rect.top;
+            const mouseX = (evt.clientX - rect.left);
+            const mouseY = (evt.clientY - rect.top)
             lastPos = [mouseX, mouseY-window.scrollY];
             addLinePoint([mouseX, mouseY]);
         }
@@ -157,7 +213,7 @@
         //     console.log(distance);
         //     return distance;
         // }
-
+        const fadeTime = waktu_ngilang*1000;
         function addLinePoint(newCoor){
             console.log("hapeenign");
             // if(mousePos.length == 0 || distance(newCoor, mousePos[mousePos.length-1]) > lineMinLen){
@@ -165,7 +221,7 @@
                 updateLine();
             // }
             // console.log(mousePos[mousePos.length-1]);
-            setTimeout(eraseLinePoint,1000);
+            setTimeout(eraseLinePoint,fadeTime);
         }
         
         function eraseLinePoint(){
@@ -187,19 +243,6 @@
         window.addEventListener("mouseup", (evt)=>{
             mouseStillDown = false;
         });
-
-        
-    //   const canvas = document.getElementById("myCanvas");
-    //   const ctx = canvas.getContext("2d");
-    //   ctx.lineWidth = 0.01;
-
-    //   function drawLine(e) {
-        
-    //     ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
-    //     ctx.stroke();
-    //   }
-
-    //   canvas.addEventListener("mousemove", drawLine);
     </script>
   </body>
 </html>
