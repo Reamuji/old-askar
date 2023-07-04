@@ -24,9 +24,6 @@
 
                 --bgColor:#010001;
                 --lineColor:#fff;
-
-                --svgHeight: 2000px;
-                --svgWidth: 4000px;
             }
 
             body{
@@ -77,11 +74,12 @@
                 image-rendering: -moz-crisp-edges; /* Firefox */
                 image-rendering: -webkit-optimize-contrast; /* Webkit (Chrome, Safari) */
                 image-rendering: -o-crisp-edges; /* Opera */
-                image-rendering: pixelated; CSS4
+                image-rendering: pixelated; /*CSS4*/
                 -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
             }
             polyline{
                 transform: scale(var(--svgScale)); /* Set the desired scale factor */
+                z-index:1003;
             }
         </style>
     </head>
@@ -152,7 +150,7 @@
                 </span>`
         });
         for(let i=0;i<21;i++){
-            const logo = `D://Project//Web//portoAskar//logo//random//${i+1}.png`
+            const logo = `logo//random//${i+1}.png`
             const zLayer = randomInt(25,100);
             const scrollSpeed = zLayer/-75;
             img += `
