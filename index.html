@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            :root{
+                --topMargin: 100px;
+                --sideSpace: 25%;
+                --photoXSpace: calc(100% - var(--sideSpace)*2);
+                --photoYSpace: calc(200vh - var(--topMargin) - 100px);
+                --photoMaxSize: 400px;
+
+                --photoZoomTime: 0.35s;
+                
+                /* --photoXSpace:100%;
+                --sideSpace: calc(50% - var(--photoXSpace)/2); */
+                --scroll: 0px;
+
+                --bgColor:#010001;
+                --lineColor:#fff;
+            }
+            
+            #test{
+                top: calc(var(--topMargin) + var(--scroll)/1.5);
+                /* left: calc(50% - var(--photoXSpace)/2); */
+                left: var(--sideSpace);
+            }
+            .imgCenter{
+                position: absolute;
+            }
+            .imgCenter img{
+                position: relative;
+                /* max-width: min(auto,10px); */
+                /* transform: translate(-50%, 0px);          */
+                /* transition: height 0.5s, height 0.5s; */
+                transition: transform var(--photoZoomTime);
+                z-index: var(--zLayer);
+                transform-origin: top left;
+            }
+            /* .imgCenter  img:not(:hover){
+                opacity: 0.5;
+            } */
+            .imgCenter  img:hover{
+                position: relative;
+                transform: scale(120%, 120%);
+                z-index:100;
+
+                /* max-width:var(--photoMaxSize)!important;
+                height::var(--photoMaxSize)!important;
+                transform-origin: top center; */
+            }
+
+            .sticky {
+                position: -webkit-sticky; /* Safari */
+                position: sticky;
+                top: 0;
+            }
+            #imgContainer{
+                z-index:1;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="imgContainer">
+        </div>
+        <div id="canvasWrapper" style="overflow: hidden;">
+            <!-- <canvas id="myCanvas" width="1000" height="1000" shape-rendering="crispEdges" shape-rendering="pixelated"></canvas> -->
+            <svg id="mySvg" shape-rendering="pixelated" width="2000" height="4000" style="background-color: var(--bgColor);">
+                <polyline points=""
+                style="fill:none;stroke:var(--lineColor);stroke-width:0.5"shape-rendering="pixelated" />
+            </svg>
+        <div style="position: absolute; top: 200vh;">
+            avaancoeg 
+            <!-- buat stretch doang njir -->
+        </div>
+        
+        </div>
+    </body>
+
+    <script>
+        let root = document.documentElement;
+        const updateScrollValue = (event) => {
+            root.style.setProperty('--scroll', window.scrollY + "px");
+        };
+        window.addEventListener("scroll", updateScrollValue);
+
+        const placeholder = ['https://fastly.picsum.photos/id/159/200/300.jpg?hmac=CC6862WSVsX6F74hcV30UzS4czPi0LO6zPJDaEaQeFU','https://fastly.picsum.photos/id/670/200/300.jpg?hmac=Ib58hZuwIQfcFZjEvKKi0p-j4GN1BGIkE7wLsa95Xk4','https://fastly.picsum.photos/id/674/200/300.jpg?hmac=kS3VQkm7AuZdYJGUABZGmnNj_3KtZ6Twgb5Qb9ITssY','https://fastly.picsum.photos/id/43/200/300.jpg?hmac=F_cVhLISpNmZ9wjirHfMJgX9rQzMYJbJE1xzfwmV36c','https://fastly.picsum.photos/id/593/200/300.jpg?hmac=q_vr9ioph2Tk-PMmB5PpX7uS2nSp2wxpYTktjucc1yQ','https://fastly.picsum.photos/id/958/200/300.jpg?hmac=oCwv3AFzS5VqZv3nvDJ3H5RzcDH2OiL2g-GGwWL5fsI','https://fastly.picsum.photos/id/100/300/200.jpg?hmac=ONiK6jtlF-h6EIOqhPFFyhyjF3SFqQ10MYWslZmlNyI','https://fastly.picsum.photos/id/456/300/200.jpg?hmac=_IJQ81tU1tfr0xGnGGNk3ka0PPuBBq0_AjFBsUd2ADs','https://fastly.picsum.photos/id/1013/300/200.jpg?hmac=OsBpo9MAg85j7O6gHzshfVJT3uWhz7-GW1piDibAqPA'];
+        const gambarAskar = ['https://pbs.twimg.com/media/Fzt3YmfX0AIUbwl?format=jpg&name=large','https://pbs.twimg.com/media/FzdDMmYaIAAttfr?format=jpg&name=4096x4096','https://pbs.twimg.com/media/Fy4KzpPaAAAnq1E?format=jpg&name=4096x4096'];
+        const satu = ['https://pbs.twimg.com/media/Fzt3YmfX0AIUbwl?format=jpg&name=large']
+        const listGambar = placeholder;
+        const fraise = 'D://Project//Web//portoAskar//image//Fraise_final.png'
+
+        let img = "";
+        random = (start,end) =>  (start + Math.random() * (end-start));
+        randomInt = (start,end) =>  Math.floor((start + Math.random() * (end-start)));
+        // gambarRandom = ()=> `https://picsum.photos/${randomInt(100,300)}/${randomInt(100,300)}`;
+
+        // =========== Prod =============
+        listGambar.forEach((gambar,index,arr) => {
+            const zLayer = randomInt(25,100);
+            const scrollSpeed = zLayer/-75;
+            let thisPhotoMaxSize = `calc(var(--photoMaxSize) * ${0.1 + zLayer/75})`;
+            // thisPhotoMaxSize = `var(--photoMaxSize)`;
+            img += `
+                <span class="imgCenter" style = "--zLayer:${zLayer}; 
+                    top: calc(var(--topMargin) + var(--scroll)*${scrollSpeed} + var(--photoYSpace)*${random(0,1)});  
+                    left: calc(var(--sideSpace) + var(--photoXSpace)*${random(0,1)});">
+                    <img src="${gambar}" style="
+                        max-width: var(--photoMaxSize);
+                        max-height: var(--photoMaxSize);
+                        width: auto;
+                        height: auto;">
+                </span>`
+        });
+        document.getElementById("imgContainer").innerHTML = img;
+        console.log(img);
+
+        const svg = document.getElementById("mySvg");
+
+        let mousePos = [];
+        let mouseStillDown = false;
+        const drawOnMouseDown = false;
+        const lineMinLen = 0;
+
+        let lastPos = [-999,-999];
+        function addMousePos(evt) {
+            if(!mouseStillDown && drawOnMouseDown){
+                return;
+            }
+            const rect = svg.getBoundingClientRect();
+            const mouseX = evt.clientX - rect.left;
+            const mouseY = evt.clientY - rect.top;
+            lastPos = [mouseX, mouseY-window.scrollY];
+            addLinePoint([mouseX, mouseY]);
+        }
+        function addMouseScrollPos(evt) {
+            if(drawOnMouseDown){
+                return;
+            }
+            // console.log(lastPos);
+            const mouseX = lastPos[0];
+            const mouseY = lastPos[1];
+            addLinePoint([mouseX, mouseY+window.scrollY]);
+        }
+
+
+        // function distance(point1, point2) {
+            
+        //     console.log(point2);
+        //     const [x1, y1] = point1;
+        //     const [x2, y2] = point2;
+            
+        //     const dx = x2 - x1;
+        //     const dy = y2 - y1;
+            
+        //     const distance = Math.sqrt(dx * dx + dy * dy);
+            
+        //     console.log(distance);
+        //     return distance;
+        // }
+
+        function addLinePoint(newCoor){
+            console.log("hapeenign");
+            // if(mousePos.length == 0 || distance(newCoor, mousePos[mousePos.length-1]) > lineMinLen){
+                mousePos.push(newCoor);
+                updateLine();
+            // }
+            // console.log(mousePos[mousePos.length-1]);
+            setTimeout(eraseLinePoint,1000);
+        }
+        
+        function eraseLinePoint(){
+            mousePos.shift();
+            updateLine();
+        }
+        function updateLine(){
+            let formattedPos = "";
+            mousePos.forEach((coor) => {
+                formattedPos += `${coor[0]},${coor[1]} `;
+            });
+            svg.innerHTML = `<polyline points="${formattedPos}" style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />`;
+        }
+        window.addEventListener("scroll", addMouseScrollPos);
+        window.addEventListener("mousemove", addMousePos);
+        window.addEventListener("mousedown", (evt)=>{
+            mouseStillDown = true;
+        });
+        window.addEventListener("mouseup", (evt)=>{
+            mouseStillDown = false;
+        });
+
+        
+    //   const canvas = document.getElementById("myCanvas");
+    //   const ctx = canvas.getContext("2d");
+    //   ctx.lineWidth = 0.01;
+
+    //   function drawLine(e) {
+        
+    //     ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+    //     ctx.stroke();
+    //   }
+
+    //   canvas.addEventListener("mousemove", drawLine);
+    </script>
+  </body>
+</html>
