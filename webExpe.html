@@ -1,0 +1,241 @@
+<html style="--scroll: 0px; --scrollNum: 0;"><head>
+        <script>
+            const gambar_pas_diklik_aja = true;
+            const waktu_ngilang = 100000;
+            const dark_mode = true;
+        </script>
+        <style>
+            :root{
+                --topMargin: 100px;
+                --sideSpace: 25%;
+                --photoMaxSize: 30vw;
+                --photoXSpace: calc(100% - var(--sideSpace)*2);
+                --photoYSpace: calc(300vh - var(--topMargin) - 100px);
+                --photoMaxSize: 30vw;
+
+                --photoZoomTime: 0.35s;
+
+                --scroll: 0px;
+                --scrollNum: 0;
+
+                --bgColor:#010001;
+                --lineColor:#fff;
+            }
+
+            body{
+                background-color: var(--bgColor);
+            }
+            
+            #test{
+                top: calc(var(--topMargin) + var(--scroll)/1.5);
+                /* left: calc(50% - var(--photoXSpace)/2); */
+                left: var(--sideSpace);
+            }
+            .imgCenter{
+                position: absolute;
+            }
+            .imgCenter img{
+                position: relative;
+                /* max-width: min(auto,10px); */
+                /* transform: translate(-50%, 0px);          */
+                /* transition: height 0.5s, height 0.5s; */
+                transition: transform var(--photoZoomTime);
+                z-index: var(--zLayer);
+                transform-origin: top left;
+            }
+            .imgCenter  img:hover{
+                position: relative;
+                transform: scale(120%, 120%) rotateY(0deg);
+                z-index:100;
+                /* max-width:var(--photoMaxSize)!important;
+                height::var(--photoMaxSize)!important; */
+                transform-origin: top center;
+            }
+
+            .sticky {
+                position: -webkit-sticky; /* Safari */
+                position: sticky;
+                top: 0;
+            }
+            #imgContainer{
+                z-index:1;
+            }
+
+            svg{
+                background-color: var(--bgColor);
+                transform: scale(var(--svgScale)); /* Set the desired scale factor */
+                height: 200vh;
+                width: 101vw;
+                image-rendering: optimizeSpeed; /* Older versions of Chrome and Safari */
+                image-rendering: -moz-crisp-edges; /* Firefox */
+                image-rendering: -webkit-optimize-contrast; /* Webkit (Chrome, Safari) */
+                image-rendering: -o-crisp-edges; /* Opera */
+                image-rendering: pixelated; /*CSS4*/
+                -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+            }
+            polyline{
+                transform: scale(var(--svgScale)); /* Set the desired scale factor */
+                z-index:1003;
+            }
+			rect{
+				mix-blend-mode: difference;
+			}
+        </style>
+    </head>
+    <body>
+        <div id="canvasWrapper" style="overflow: hidden;">
+            <svg id="mySvg" shape-rendering="crispEdges"><polyline points="" style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated"></polyline>
+			</svg>
+        </div>
+		<img src="artwork/Fraise_final.png" style="
+                    position: absolute;
+                    top: 25vh;  
+                    left: 15vw;
+                    max-height: 50vh;">
+    <script>
+        //css var edit
+        let root = document.documentElement;
+		const setValue      = (varName,value)   => root.style.setProperty(varName, value);
+        const getValue      = (varName)         => getComputedStyle(root).getPropertyValue(varName);
+
+        const updateScrollValue = (event) => {
+            setValue('--scroll', window.scrollY + "px");
+            setValue('--scrollNum', window.scrollY);
+        };
+        window.addEventListener("scroll", updateScrollValue);
+        
+        if(!dark_mode){
+            setValue('--bgColor', "#fff");
+            setValue('--lineColor', "#010001");
+        }
+		
+		const onMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+		console.log("onmobile :" + onMobile);
+		
+        <!-- setValue('--svgScale', zoomCanvas); -->
+
+        <!-- const fraise = 'image/Fraise_final.png' -->
+
+        random = (start,end) =>  (start + Math.random() * (end-start));
+        randomInt = (start,end) =>  Math.floor((start + Math.random() * (end-start)));
+      
+        const svg = document.getElementById("mySvg");
+
+        let mousePos = [];
+        let mouseStillDown = false;
+        const drawOnMouseDown = gambar_pas_diklik_aja;
+        const lineMinLen = 0;
+
+        let lastPos = [-999,-999];
+        function addMousePos(evt) {
+            if(!mouseStillDown && drawOnMouseDown){
+                return;
+            }
+            const rect = svg.getBoundingClientRect();
+            const mouseX = (evt.clientX - rect.left);
+            const mouseY = (evt.clientY - rect.top)
+            lastPos = [mouseX, mouseY-window.scrollY];
+            addLinePoint([mouseX, mouseY]);
+        }
+        function addMouseScrollPos(evt) {
+            if(drawOnMouseDown){
+                return;
+            }
+            // console.log(lastPos);
+            const mouseX = lastPos[0];
+            const mouseY = lastPos[1];
+            addLinePoint([mouseX, mouseY+window.scrollY]);
+        }
+
+
+        // function distance(point1, point2) {
+            
+        //     console.log(point2);
+        //     const [x1, y1] = point1;
+        //     const [x2, y2] = point2;
+            
+        //     const dx = x2 - x1;
+        //     const dy = y2 - y1;
+            
+        //     const distance = Math.sqrt(dx * dx + dy * dy);
+            
+        //     console.log(distance);
+        //     return distance;
+        // }
+		
+		const range = (start, end, step = 1) => {
+			end = end++;
+			let lowNum = Math.min(start, end);
+			let highNum = Math.max(start, end);
+			return rangeSize(start, Math.ceil((highNum-lowNum)/Math.abs(step)), Math.abs(step) * (start < end ? 1 : -1));
+		};
+		const rangeSize = (start, size, step = 1) => ([...Array(size).keys()].map(i => i*step + start));
+		
+        const fadeTime = waktu_ngilang*1000;
+        function addLinePoint(newCoor){
+			if(onMobile){
+				return;
+			}
+            // if(mousePos.length == 0 || distance(newCoor, mousePos[mousePos.length-1]) > lineMinLen){
+                mousePos.push(newCoor);
+                updateLine();
+            // }
+            // console.log(mousePos[mousePos.length-1]);
+            setTimeout(eraseLinePoint,fadeTime);
+        }
+        
+        function eraseLinePoint(){
+            mousePos.shift();
+            updateLine();
+        }
+		let lastCoor = [];
+        function updateLine(){
+			const x = 0;
+			const y = 1;
+			<!-- let formattedPos = ""; -->
+			<!-- mousePos.forEach((coor) => { -->
+				<!-- formattedPos += `${coor[0]},${coor[1]} `; -->
+			<!-- }); -->
+			<!-- svg.innerHTML = `<polyline points="${formattedPos}" style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" /> -->
+			<!-- <rect x="50" y="20" width="1" height="1" style="fill:blue;stroke:white;stroke-width:1;fill-opacity:0.1;stroke-opacity:0.9" /> -->
+			<!-- <rect x="52" y="22" width="1" height="1" style="fill:blue;stroke:white;stroke-width:1;fill-opacity:0.1;stroke-opacity:0.9" /> -->
+			<!-- <polyline points="50,25 52,25" style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />`; -->
+			
+			let pixel = "";
+			lastCoor = mousePos[0];
+			mousePos.forEach((coor) => {
+				const mouseXMovement = coor[x]-lastCoor[x];
+				const mouseYMovement = coor[y]-lastCoor[y];
+				<!-- const snap = x => (x - x%2); -->
+				const snap = x => x;
+				if(Math.abs(mouseXMovement) > Math.abs(mouseYMovement)){
+					const num = range(snap(coor[x]), lastCoor[x]);
+					const slope = -mouseYMovement/mouseXMovement;
+					
+					num.forEach((item,index,arr)=>{
+						pixel += `<rect x="${item}" y="${snap(coor[y] + slope*index)}" width="1" height="1" style="fill:white;stroke:white;stroke-width:1;fill-opacity:1;stroke-opacity:0" />`;
+					})
+				}else{
+					const num = range(snap(coor[y]), lastCoor[y]);
+					const slope = -mouseXMovement/mouseYMovement;
+				
+					num.forEach((item,index,arr)=>{
+						pixel += `<rect y="${item}" x="${snap(coor[x] + slope*index)}" width="1" height="1" style="fill:white;stroke:white;stroke-width:1;fill-opacity:1;stroke-opacity:0" />`;
+					})
+				}
+				lastCoor = coor;
+				<!-- pixel += `<rect x="${snap(coor[0])}" y="${snap(coor[1])}" width="1" height="1" style="fill:blue;stroke:white;stroke-width:1;fill-opacity:1;stroke-opacity:1" />`; -->
+			});
+			svg.innerHTML = pixel;
+        }
+        window.addEventListener("scroll", addMouseScrollPos);
+        window.addEventListener("mousemove", addMousePos);
+        window.addEventListener("mousedown", (evt)=>{
+            mouseStillDown = true;
+        });
+        window.addEventListener("mouseup", (evt)=>{
+            mouseStillDown = false;
+        });
+    </script>
+	</body>
+</html>
