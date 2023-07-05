@@ -4,10 +4,10 @@
 <html>
     <head>
         <script>
-            const gambar_pas_diklik_aja = false;
-            const waktu_ngilang = 1000;
-            const dark_mode = true;
-			const umsmooth_line = 40;
+		let gambar_pas_diklik_aja = false;
+		let waktu_ngilang = 1000;
+		let dark_mode = true;
+		let unsmooth_line = 40;
         </script>
         <style>
             :root{
@@ -172,7 +172,7 @@
 
         let mousePos = [];
         let mouseStillDown = false;
-        const drawOnMouseDown = gambar_pas_diklik_aja;
+        let drawOnMouseDown = gambar_pas_diklik_aja;
 
         let lastPos = [-999,-999];
         function addMousePos(evt) {
@@ -210,8 +210,8 @@
              console.log(distance);
              return distance;
         }
-        const fadeTime = waktu_ngilang*1000;
-		const lineMinLen = umsmooth_line;
+        let fadeTime = waktu_ngilang*1000;
+	let lineMinLen = unsmooth_line;
         function addLinePoint(newCoor){
             if (mousePos.length == 0 || distance(newCoor, mousePos[mousePos.length-1]) > lineMinLen){
                 mousePos.push(newCoor);
