@@ -4,9 +4,10 @@
 <html>
     <head>
         <script>
-            const gambar_pas_diklik_aja = false;
-            const waktu_ngilang = 1000;
-            const dark_mode = true;
+		let gambar_pas_diklik_aja = false;
+		let waktu_ngilang = 1000;
+		let dark_mode = true;
+		let unsmooth_line = 40;
         </script>
         <style>
             :root{
@@ -80,6 +81,7 @@
             polyline{
                 transform: scale(var(--svgScale)); /* Set the desired scale factor */
                 z-index:1003;
+				mix-blend-mode: difference;
             }
         </style>
     </head>
@@ -104,13 +106,13 @@
             setValue('--scroll', window.scrollY + "px");
             setValue('--scrollNum', window.scrollY);
         };
-        window.addEventListener("scroll", updateScrollValue);
+        <!-- window.addEventListener("scroll", updateScrollValue); -->
+		setInterval(updateScrollValue,2);
         
         if(!dark_mode){
             setValue('--bgColor', "#fff");
             setValue('--lineColor', "#010001");
         }
-        // setValue('--svgScale', zoomCanvas);
 
 
         const placeholder = ['https://fastly.picsum.photos/id/159/200/300.jpg?hmac=CC6862WSVsX6F74hcV30UzS4czPi0LO6zPJDaEaQeFU','https://fastly.picsum.photos/id/670/200/300.jpg?hmac=Ib58hZuwIQfcFZjEvKKi0p-j4GN1BGIkE7wLsa95Xk4','https://fastly.picsum.photos/id/674/200/300.jpg?hmac=kS3VQkm7AuZdYJGUABZGmnNj_3KtZ6Twgb5Qb9ITssY','https://fastly.picsum.photos/id/43/200/300.jpg?hmac=F_cVhLISpNmZ9wjirHfMJgX9rQzMYJbJE1xzfwmV36c','https://fastly.picsum.photos/id/593/200/300.jpg?hmac=q_vr9ioph2Tk-PMmB5PpX7uS2nSp2wxpYTktjucc1yQ','https://fastly.picsum.photos/id/958/200/300.jpg?hmac=oCwv3AFzS5VqZv3nvDJ3H5RzcDH2OiL2g-GGwWL5fsI','https://fastly.picsum.photos/id/100/300/200.jpg?hmac=ONiK6jtlF-h6EIOqhPFFyhyjF3SFqQ10MYWslZmlNyI','https://fastly.picsum.photos/id/456/300/200.jpg?hmac=_IJQ81tU1tfr0xGnGGNk3ka0PPuBBq0_AjFBsUd2ADs','https://fastly.picsum.photos/id/1013/300/200.jpg?hmac=OsBpo9MAg85j7O6gHzshfVJT3uWhz7-GW1piDibAqPA'];
@@ -127,8 +129,6 @@
         listGambar.forEach((gambar,index,arr) => {
             const zLayer = randomInt(25,100);
             const scrollSpeed = zLayer/-75;
-            let thisPhotoMaxSize = `calc(var(--photoMaxSize) * ${0.1 + zLayer/75})`;
-            // thisPhotoMaxSize = `var(--photoMaxSize)`;
             const randomY = random(0,1);
             img += `
                 <span class="imgCenter" style = "
@@ -172,8 +172,7 @@
 
         let mousePos = [];
         let mouseStillDown = false;
-        const drawOnMouseDown = gambar_pas_diklik_aja;
-        const lineMinLen = 0;
+        let drawOnMouseDown = gambar_pas_diklik_aja;
 
         let lastPos = [-999,-999];
         function addMousePos(evt) {
@@ -197,28 +196,27 @@
         }
 
 
-        // function distance(point1, point2) {
+        function distance(point1, point2) {
             
-        //     console.log(point2);
-        //     const [x1, y1] = point1;
-        //     const [x2, y2] = point2;
+             console.log(point2);
+             const [x1, y1] = point1;
+             const [x2, y2] = point2;
             
-        //     const dx = x2 - x1;
-        //     const dy = y2 - y1;
+             const dx = x2 - x1;
+             const dy = y2 - y1;
             
-        //     const distance = Math.sqrt(dx * dx + dy * dy);
+             const distance = Math.sqrt(dx * dx + dy * dy);
             
-        //     console.log(distance);
-        //     return distance;
-        // }
-        const fadeTime = waktu_ngilang*1000;
+             console.log(distance);
+             return distance;
+        }
+        let fadeTime = waktu_ngilang*1000;
+	let lineMinLen = unsmooth_line;
         function addLinePoint(newCoor){
-            console.log("hapeenign");
-            // if(mousePos.length == 0 || distance(newCoor, mousePos[mousePos.length-1]) > lineMinLen){
+            if (mousePos.length == 0 || distance(newCoor, mousePos[mousePos.length-1]) > lineMinLen){
                 mousePos.push(newCoor);
                 updateLine();
-            // }
-            // console.log(mousePos[mousePos.length-1]);
+            }
             setTimeout(eraseLinePoint,fadeTime);
         }
         
@@ -231,9 +229,10 @@
             mousePos.forEach((coor) => {
                 formattedPos += `${coor[0]},${coor[1]} `;
             });
+			
             svg.innerHTML = `<polyline points="${formattedPos}" style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />`;
         }
-        window.addEventListener("scroll", addMouseScrollPos);
+		window.addEventListener("scroll", addMouseScrollPos);
         window.addEventListener("mousemove", addMousePos);
         window.addEventListener("mousedown", (evt)=>{
             mouseStillDown = true;
