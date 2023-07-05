@@ -7,9 +7,8 @@
             const gambar_pas_diklik_aja = false;
             const waktu_ngilang = 1000;
             const dark_mode = true;
-			const tingkat_ketajeman_garis = 40;
+			const umsmooth_line = 40;
         </script>
-		<script src="rellax.js"></script>
         <style>
             :root{
                 --topMargin: 100px;
@@ -91,8 +90,7 @@
         </div>
         <div id="canvasWrapper" style="overflow: hidden;">
             <svg id="mySvg" shape-rendering="crispEdges">
-				<circle cx="50" cy="50" r="40" stroke="white" fill="white" />
-                <polyline points="0,0 75,75"
+                <polyline points=""
                 style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />
             </svg>
         </div>
@@ -115,7 +113,6 @@
             setValue('--bgColor', "#fff");
             setValue('--lineColor', "#010001");
         }
-        // setValue('--svgScale', zoomCanvas);
 
 
         const placeholder = ['https://fastly.picsum.photos/id/159/200/300.jpg?hmac=CC6862WSVsX6F74hcV30UzS4czPi0LO6zPJDaEaQeFU','https://fastly.picsum.photos/id/670/200/300.jpg?hmac=Ib58hZuwIQfcFZjEvKKi0p-j4GN1BGIkE7wLsa95Xk4','https://fastly.picsum.photos/id/674/200/300.jpg?hmac=kS3VQkm7AuZdYJGUABZGmnNj_3KtZ6Twgb5Qb9ITssY','https://fastly.picsum.photos/id/43/200/300.jpg?hmac=F_cVhLISpNmZ9wjirHfMJgX9rQzMYJbJE1xzfwmV36c','https://fastly.picsum.photos/id/593/200/300.jpg?hmac=q_vr9ioph2Tk-PMmB5PpX7uS2nSp2wxpYTktjucc1yQ','https://fastly.picsum.photos/id/958/200/300.jpg?hmac=oCwv3AFzS5VqZv3nvDJ3H5RzcDH2OiL2g-GGwWL5fsI','https://fastly.picsum.photos/id/100/300/200.jpg?hmac=ONiK6jtlF-h6EIOqhPFFyhyjF3SFqQ10MYWslZmlNyI','https://fastly.picsum.photos/id/456/300/200.jpg?hmac=_IJQ81tU1tfr0xGnGGNk3ka0PPuBBq0_AjFBsUd2ADs','https://fastly.picsum.photos/id/1013/300/200.jpg?hmac=OsBpo9MAg85j7O6gHzshfVJT3uWhz7-GW1piDibAqPA'];
@@ -132,8 +129,6 @@
         listGambar.forEach((gambar,index,arr) => {
             const zLayer = randomInt(25,100);
             const scrollSpeed = zLayer/-75;
-            // let thisPhotoMaxSize = `calc(var(--photoMaxSize) * ${0.1 + zLayer/75})`;
-            // thisPhotoMaxSize = `var(--photoMaxSize)`;
             const randomY = random(0,1);
             img += `
                 <span class="imgCenter" style = "
@@ -216,14 +211,12 @@
              return distance;
         }
         const fadeTime = waktu_ngilang*1000;
-		const lineMinLen = tingkat_ketajeman_garis;
+		const lineMinLen = umsmooth_line;
         function addLinePoint(newCoor){
-            console.log("hapeenign");
             if (mousePos.length == 0 || distance(newCoor, mousePos[mousePos.length-1]) > lineMinLen){
                 mousePos.push(newCoor);
                 updateLine();
             }
-            // console.log(mousePos[mousePos.length-1]);
             setTimeout(eraseLinePoint,fadeTime);
         }
         
@@ -239,7 +232,7 @@
 			
             svg.innerHTML = `<polyline points="${formattedPos}" style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />`;
         }
-        <!-- window.addEventListener("scroll", addMouseScrollPos); -->
+		window.addEventListener("scroll", addMouseScrollPos);
         window.addEventListener("mousemove", addMousePos);
         window.addEventListener("mousedown", (evt)=>{
             mouseStillDown = true;
