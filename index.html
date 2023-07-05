@@ -7,7 +7,9 @@
             const gambar_pas_diklik_aja = false;
             const waktu_ngilang = 1000;
             const dark_mode = true;
+			const tingkat_ketajeman_garis = 40;
         </script>
+		<script src="rellax.js"></script>
         <style>
             :root{
                 --topMargin: 100px;
@@ -80,6 +82,7 @@
             polyline{
                 transform: scale(var(--svgScale)); /* Set the desired scale factor */
                 z-index:1003;
+				mix-blend-mode: difference;
             }
         </style>
     </head>
@@ -88,7 +91,8 @@
         </div>
         <div id="canvasWrapper" style="overflow: hidden;">
             <svg id="mySvg" shape-rendering="crispEdges">
-                <polyline points=""
+				<circle cx="50" cy="50" r="40" stroke="white" fill="white" />
+                <polyline points="0,0 75,75"
                 style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />
             </svg>
         </div>
@@ -104,7 +108,8 @@
             setValue('--scroll', window.scrollY + "px");
             setValue('--scrollNum', window.scrollY);
         };
-        window.addEventListener("scroll", updateScrollValue);
+        <!-- window.addEventListener("scroll", updateScrollValue); -->
+		setInterval(updateScrollValue,2);
         
         if(!dark_mode){
             setValue('--bgColor', "#fff");
@@ -127,7 +132,7 @@
         listGambar.forEach((gambar,index,arr) => {
             const zLayer = randomInt(25,100);
             const scrollSpeed = zLayer/-75;
-            let thisPhotoMaxSize = `calc(var(--photoMaxSize) * ${0.1 + zLayer/75})`;
+            // let thisPhotoMaxSize = `calc(var(--photoMaxSize) * ${0.1 + zLayer/75})`;
             // thisPhotoMaxSize = `var(--photoMaxSize)`;
             const randomY = random(0,1);
             img += `
@@ -173,7 +178,6 @@
         let mousePos = [];
         let mouseStillDown = false;
         const drawOnMouseDown = gambar_pas_diklik_aja;
-        const lineMinLen = 0;
 
         let lastPos = [-999,-999];
         function addMousePos(evt) {
@@ -197,27 +201,28 @@
         }
 
 
-        // function distance(point1, point2) {
+        function distance(point1, point2) {
             
-        //     console.log(point2);
-        //     const [x1, y1] = point1;
-        //     const [x2, y2] = point2;
+             console.log(point2);
+             const [x1, y1] = point1;
+             const [x2, y2] = point2;
             
-        //     const dx = x2 - x1;
-        //     const dy = y2 - y1;
+             const dx = x2 - x1;
+             const dy = y2 - y1;
             
-        //     const distance = Math.sqrt(dx * dx + dy * dy);
+             const distance = Math.sqrt(dx * dx + dy * dy);
             
-        //     console.log(distance);
-        //     return distance;
-        // }
+             console.log(distance);
+             return distance;
+        }
         const fadeTime = waktu_ngilang*1000;
+		const lineMinLen = tingkat_ketajeman_garis;
         function addLinePoint(newCoor){
             console.log("hapeenign");
-            // if(mousePos.length == 0 || distance(newCoor, mousePos[mousePos.length-1]) > lineMinLen){
+            if (mousePos.length == 0 || distance(newCoor, mousePos[mousePos.length-1]) > lineMinLen){
                 mousePos.push(newCoor);
                 updateLine();
-            // }
+            }
             // console.log(mousePos[mousePos.length-1]);
             setTimeout(eraseLinePoint,fadeTime);
         }
@@ -231,9 +236,10 @@
             mousePos.forEach((coor) => {
                 formattedPos += `${coor[0]},${coor[1]} `;
             });
+			
             svg.innerHTML = `<polyline points="${formattedPos}" style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />`;
         }
-        window.addEventListener("scroll", addMouseScrollPos);
+        <!-- window.addEventListener("scroll", addMouseScrollPos); -->
         window.addEventListener("mousemove", addMousePos);
         window.addEventListener("mousedown", (evt)=>{
             mouseStillDown = true;
