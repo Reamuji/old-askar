@@ -1,245 +1,253 @@
-<!-- This website is full of questionable logic and spagetti code  -->
-<!-- dont tell me i havent warned ya -->
-<!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>karunochi</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/x-icon" href="logo\karunochi\iconLow.png" />
         <script>
-		let gambar_pas_diklik_aja = false;
-		let waktu_ngilang = 1000;
-		let dark_mode = true;
-		let unsmooth_line = 40;
+            const jumlahImageDepan = 9;
         </script>
         <style>
             :root{
-                --topMargin: 100px;
-                --sideSpace: 25%;
-                --photoMaxSize: 30vw;
-                --photoXSpace: calc(100% - var(--sideSpace)*2);
-                --photoYSpace: calc(300vh - var(--topMargin) - 100px);
-                --photoMaxSize: 30vw;
+                --scrollDuration:25s;
 
-                --photoZoomTime: 0.35s;
-
-                --scroll: 0px;
-                --scrollNum: 0;
-
-                --bgColor:#010001;
-                --lineColor:#fff;
+                --imgScroll:0px;
+                --usedWidth:85vw;
+            }
+            body{
+                background-color: black;
+                color: white;
+                margin: 0;
+                padding: 0;
+                border: 0;
+                overflow: hidden;
+            }
+            .askarMTopCollection2010{
+                width: var(--usedWidth);
+                height: 80vh;
+                overflow: hidden;
+                display: flex;
+                margin: 0 auto;
+                box-sizing: border-box;
+            }
+            .imgContainer{
+                height: 100%;
+                display: flex;
+                animation:scroll-left var(--scrollDuration) linear infinite;
+            }
+            .imgContainer img{
+                width: auto;
+                height: 100%;
+                /* opacity: 50%; */
+            }
+            @keyframes scroll-left{
+                0%{
+                    transform: translateX(0);
+                }
+                100%{
+                    transform: translateX(var(--imgScroll));
+                }
             }
 
-            body{
-                background-color: var(--bgColor);
+            #UI {
+                z-index: 1;
+                width: var(--usedWidth);
+                height: 20vh;
+                margin: 0 auto;
+                position: relative;
+            }
+            #logo{
+                height: 100%;
+                width: 50%;
+                display: inline-block;
+                position: absolute;
+                top: 0; 
+                left: 0;
+            }
+            #logo img{
+                max-width: 100%;
+                max-height: 70%;
+                position: absolute; 
+                top: 50%; 
+                left: 0; 
+                transform: translateY(-50%);
+                mix-blend-mode: lighten;
+            }
+            #buttonContainer {
+                height: 100%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
+
+            #middle {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            .btn {
+                margin: 0;
+                font-family: "adobe-garamond-pro", serif;
+                cursor: pointer;
+                display: inline;
+                border: none;
+                background-color: inherit;
+                color: inherit;
+                width: 100%;
+                font-size: inherit;
+            }
+
+            .left-align {
+                float: left;
+            }
+
+            .right-align {
+                float: right;
             }
             
-            #test{
-                top: calc(var(--topMargin) + var(--scroll)/1.5);
-                /* left: calc(50% - var(--photoXSpace)/2); */
-                left: var(--sideSpace);
-            }
-            .imgCenter{
+            #reflection {
                 position: absolute;
-            }
-            .imgCenter img{
-                position: relative;
-                /* max-width: min(auto,10px); */
-                /* transform: translate(-50%, 0px);          */
-                /* transition: height 0.5s, height 0.5s; */
-                transition: transform var(--photoZoomTime);
-                z-index: var(--zLayer);
-                transform-origin: top left;
-            }
-            .imgCenter  img:hover{
-                position: relative;
-                transform: scale(120%, 120%) rotateY(0deg);
-                z-index:100;
-                /* max-width:var(--photoMaxSize)!important;
-                height::var(--photoMaxSize)!important; */
-                transform-origin: top center;
-            }
-
-            .sticky {
-                position: -webkit-sticky; /* Safari */
-                position: sticky;
-                top: 0;
-            }
-            #imgContainer{
-                z-index:1;
-            }
-
-            svg{
-                background-color: var(--bgColor);
-                transform: scale(var(--svgScale)); /* Set the desired scale factor */
-                height: 200vh;
-                width: 101vw;
-                image-rendering: optimizeSpeed; /* Older versions of Chrome and Safari */
-                image-rendering: -moz-crisp-edges; /* Firefox */
-                image-rendering: -webkit-optimize-contrast; /* Webkit (Chrome, Safari) */
-                image-rendering: -o-crisp-edges; /* Opera */
-                image-rendering: pixelated; /*CSS4*/
-                -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
-            }
-            polyline{
-                transform: scale(var(--svgScale)); /* Set the desired scale factor */
-                z-index:1003;
-				mix-blend-mode: difference;
-            }
+                top: 100%;
+                left: 0;
+                transform: scaleY(-1) translate(0,10%);
+                filter: blur(20px);
+                z-index: -1;
+                /* -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(#0000), to(#0009)) */
+                mask-image: linear-gradient(to bottom, transparent, #0009);
+                -webkit-mask-image: linear-gradient(to bottom, transparent, #0009);
+		  	}
         </style>
     </head>
     <body>
-        <div id="imgContainer">
+        <div class="askarMTopCollection2010">
+            <div class="imgContainer"></div><div class="imgContainer"></div>
         </div>
-        <div id="canvasWrapper" style="overflow: hidden;">
-            <svg id="mySvg" shape-rendering="crispEdges">
-                <polyline points=""
-                style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />
-            </svg>
+        <div id="UI">
+            <div id="logo">
+                <img src="logo\karunochi\logotype-Marginless.png">
+            </div>
+            <div id="buttonContainer">
+                <div id="middle">
+                    <button class="btn" id="contact">
+                        <span class="left-align">Contact Me</span>
+                        <span class="right-align">→</span>
+                    </button>
+                    <div>
+                        <button class="btn detail">
+                            <span class="left-align">Commission Detail</span>
+                            <span class="right-align">→</span>
+                        </button>
+                        <button class="btn more">
+                            <span class="left-align">See More</span>
+                            <span class="right-align">→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="reflection">
+                <div class="askarMTopCollection2010">
+                    <div class="imgContainer"></div><div class="imgContainer"></div>
+                </div>
+            </div>
         </div>
     </body>
-
     <script>
-        //css var edit
         let root = document.documentElement;
-		const setValue      = (varName,value)   => root.style.setProperty(varName, value);
-        const getValue      = (varName)         => getComputedStyle(root).getPropertyValue(varName);
+		const setValue = (varName,value) => root.style.setProperty(varName, value);
+        const getValue = (varName)       => getComputedStyle(root).getPropertyValue(varName);
 
-        const updateScrollValue = (event) => {
-            setValue('--scroll', window.scrollY + "px");
-            setValue('--scrollNum', window.scrollY);
-        };
-        <!-- window.addEventListener("scroll", updateScrollValue); -->
-		setInterval(updateScrollValue,2);
         
-        if(!dark_mode){
-            setValue('--bgColor', "#fff");
-            setValue('--lineColor', "#010001");
+        async function imageExists(imageUrl) {
+            try {
+                const response = await fetch(imageUrl);
+                if (response.ok) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (error) {
+                console.log('An error occurred while checking the image:', error);
+                return false;
+            }
         }
-
-
-        const placeholder = ['https://fastly.picsum.photos/id/159/200/300.jpg?hmac=CC6862WSVsX6F74hcV30UzS4czPi0LO6zPJDaEaQeFU','https://fastly.picsum.photos/id/670/200/300.jpg?hmac=Ib58hZuwIQfcFZjEvKKi0p-j4GN1BGIkE7wLsa95Xk4','https://fastly.picsum.photos/id/674/200/300.jpg?hmac=kS3VQkm7AuZdYJGUABZGmnNj_3KtZ6Twgb5Qb9ITssY','https://fastly.picsum.photos/id/43/200/300.jpg?hmac=F_cVhLISpNmZ9wjirHfMJgX9rQzMYJbJE1xzfwmV36c','https://fastly.picsum.photos/id/593/200/300.jpg?hmac=q_vr9ioph2Tk-PMmB5PpX7uS2nSp2wxpYTktjucc1yQ','https://fastly.picsum.photos/id/958/200/300.jpg?hmac=oCwv3AFzS5VqZv3nvDJ3H5RzcDH2OiL2g-GGwWL5fsI','https://fastly.picsum.photos/id/100/300/200.jpg?hmac=ONiK6jtlF-h6EIOqhPFFyhyjF3SFqQ10MYWslZmlNyI','https://fastly.picsum.photos/id/456/300/200.jpg?hmac=_IJQ81tU1tfr0xGnGGNk3ka0PPuBBq0_AjFBsUd2ADs','https://fastly.picsum.photos/id/1013/300/200.jpg?hmac=OsBpo9MAg85j7O6gHzshfVJT3uWhz7-GW1piDibAqPA'];
-        const gambarAskar = ['https://pbs.twimg.com/media/Fzt3YmfX0AIUbwl?format=jpg&name=large','https://pbs.twimg.com/media/FzdDMmYaIAAttfr?format=jpg&name=4096x4096','https://pbs.twimg.com/media/Fy4KzpPaAAAnq1E?format=jpg&name=4096x4096'];
-        const satu = ['https://pbs.twimg.com/media/Fzt3YmfX0AIUbwl?format=jpg&name=large']
-        const listGambar = placeholder;
-        const fraise = 'D://Project//Web//portoAskar//image//Fraise_final.png'
 
         let img = "";
-        random = (start,end) =>  (start + Math.random() * (end-start));
-        randomInt = (start,end) =>  Math.floor((start + Math.random() * (end-start)));
-        // gambarRandom = ()=> `https://picsum.photos/${randomInt(100,300)}/${randomInt(100,300)}`;
-
-        listGambar.forEach((gambar,index,arr) => {
-            const zLayer = randomInt(25,100);
-            const scrollSpeed = zLayer/-75;
-            const randomY = random(0,1);
+        let i=1;
+        for(let i=1;i<=jumlahImageDepan;i++){
+            let image = `frontImage/${i}.png`
+            // if(imageExists(image+".png")){
+            //     image += ".png"
+            // }else if(imageExists(image+".jpg")){
+            //     image += ".jpg"
+            // }
             img += `
-                <span class="imgCenter" style = "
-                    --zLayer:${zLayer};
-                    --randomY: ${randomY};
-                    --photoY: calc(var(--photoYSpace)*var(--randomY));
-                    --yPos: calc(var(--topMargin) + var(--scroll)*${scrollSpeed} + var(--photoY));
-                    --witdhMultiplier:  0;
-                    z-index:${zLayer};
-                    top: var(--yPos);  
-                    left: calc(var(--sideSpace) + var(--photoXSpace)*${random(0,1)});">
-                    <img src="${gambar}" style="
-                        max-width: var(--photoMaxSize) * ;
-                        max-height: var(--photoMaxSize);
-                        width: auto;
-                        height: auto;
-                        i: calc(var(--scrollNum)*1deg);
-                        transform: rotateY(calc(20deg+20deg));">
-                </span>`
-        });
-        for(let i=0;i<21;i++){
-            const logo = `logo//random//${i+1}.png`
-            const zLayer = randomInt(25,100);
-            const scrollSpeed = zLayer/-75;
-            img += `
-                <img src="${logo}" style="
-                    --photoY: calc(var(--photoYSpace)*${random(0,1)});
-                    --yPos: calc(var(--topMargin) + var(--scroll)*${scrollSpeed} + var(--photoY));
-                    position: absolute;
-                    top: var(--yPos);  
-                    left: calc(var(--sideSpace) + var(--photoXSpace)*${random(0,1)});
-                    z-index:${zLayer};
-                    max-width: 10vw;
-                    max-height: 10vw;
-                    mix-blend-mode: difference;">`
-        }
-        document.getElementById("imgContainer").innerHTML = img;
-        console.log(img);
-
-        const svg = document.getElementById("mySvg");
-
-        let mousePos = [];
-        let mouseStillDown = false;
-        let drawOnMouseDown = gambar_pas_diklik_aja;
-
-        let lastPos = [-999,-999];
-        function addMousePos(evt) {
-            if(!mouseStillDown && drawOnMouseDown){
-                return;
-            }
-            const rect = svg.getBoundingClientRect();
-            const mouseX = (evt.clientX - rect.left);
-            const mouseY = (evt.clientY - rect.top)
-            lastPos = [mouseX, mouseY-window.scrollY];
-            addLinePoint([mouseX, mouseY]);
-        }
-        function addMouseScrollPos(evt) {
-            if(drawOnMouseDown){
-                return;
-            }
-            // console.log(lastPos);
-            const mouseX = lastPos[0];
-            const mouseY = lastPos[1];
-            addLinePoint([mouseX, mouseY+window.scrollY]);
+                <img src="${image}">`
         }
 
+        // const imageUrl = 'https://example.com/image.jpg';
+        // imageExists(imageUrl);
 
-        function distance(point1, point2) {
-            
-             console.log(point2);
-             const [x1, y1] = point1;
-             const [x2, y2] = point2;
-            
-             const dx = x2 - x1;
-             const dy = y2 - y1;
-            
-             const distance = Math.sqrt(dx * dx + dy * dy);
-            
-             console.log(distance);
-             return distance;
-        }
-        let fadeTime = waktu_ngilang*1000;
-	let lineMinLen = unsmooth_line;
-        function addLinePoint(newCoor){
-            if (mousePos.length == 0 || distance(newCoor, mousePos[mousePos.length-1]) > lineMinLen){
-                mousePos.push(newCoor);
-                updateLine();
-            }
-            setTimeout(eraseLinePoint,fadeTime);
-        }
+        // let img = "";
+        // let i=1;
+        // while(true){
+        //     const image = `frontImage/${i}`;
+        //     let format = "";
+        //     if(imageExists(`${image}.png`)){
+        //         format = ".png";
+        //     }else if(imageExists(`${image}.jpg`)){
+        //         format = ".jpg";
+        //     }else{
+        //         break;
+        //     }
+                
+        //     img += `<img src="${image}${format}">`
+        //     i++;
+        // }
+
+
+        // const gambarAskar = ['https://pbs.twimg.com/media/Fzt3YmfX0AIUbwl?format=jpg&name=large','https://pbs.twimg.com/media/FzdDMmYaIAAttfr?format=jpg&name=4096x4096','https://pbs.twimg.com/media/Fy4KzpPaAAAnq1E?format=jpg&name=4096x4096'];
+        // const placeholder = ['https://fastly.picsum.photos/id/159/200/300.jpg?hmac=CC6862WSVsX6F74hcV30UzS4czPi0LO6zPJDaEaQeFU','https://fastly.picsum.photos/id/670/200/300.jpg?hmac=Ib58hZuwIQfcFZjEvKKi0p-j4GN1BGIkE7wLsa95Xk4','https://fastly.picsum.photos/id/674/200/300.jpg?hmac=kS3VQkm7AuZdYJGUABZGmnNj_3KtZ6Twgb5Qb9ITssY','https://fastly.picsum.photos/id/43/200/300.jpg?hmac=F_cVhLISpNmZ9wjirHfMJgX9rQzMYJbJE1xzfwmV36c','https://fastly.picsum.photos/id/593/200/300.jpg?hmac=q_vr9ioph2Tk-PMmB5PpX7uS2nSp2wxpYTktjucc1yQ','https://fastly.picsum.photos/id/958/200/300.jpg?hmac=oCwv3AFzS5VqZv3nvDJ3H5RzcDH2OiL2g-GGwWL5fsI','https://fastly.picsum.photos/id/100/300/200.jpg?hmac=ONiK6jtlF-h6EIOqhPFFyhyjF3SFqQ10MYWslZmlNyI','https://fastly.picsum.photos/id/456/300/200.jpg?hmac=_IJQ81tU1tfr0xGnGGNk3ka0PPuBBq0_AjFBsUd2ADs','https://fastly.picsum.photos/id/1013/300/200.jpg?hmac=OsBpo9MAg85j7O6gHzshfVJT3uWhz7-GW1piDibAqPA'];
+        // let listGambar = gambarAskar;
+        // listGambar.forEach(
+        //     gambar => {img += `<img src="${gambar}">`;}
+        // );
         
-        function eraseLinePoint(){
-            mousePos.shift();
-            updateLine();
+        imgContainerList = Array.from(document.getElementsByClassName("imgContainer"));
+        imgContainerList.forEach(
+            imgContainer => {imgContainer.innerHTML = img});
+
+        let totalImgWidth = 0;
+
+        // const topCollectionWidth = document.querySelector('#askarMTopCollection2010').offsetWidth;
+        function addTotalImgWidth(imgWidth){
+            totalImgWidth += imgWidth;
+            setValue ('--imgScroll',totalImgWidth*-1 + 'px');
         }
-        function updateLine(){
-            let formattedPos = "";
-            mousePos.forEach((coor) => {
-                formattedPos += `${coor[0]},${coor[1]} `;
-            });
-			
-            svg.innerHTML = `<polyline points="${formattedPos}" style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />`;
+        const images = document.querySelector('.imgContainer').querySelectorAll('img');
+        images.forEach(image=>{
+            image.addEventListener('load',
+                onLoad => { addTotalImgWidth(image.offsetWidth) }
+        )})
+
+        const recalculateImgWidth=()=>{
+            totalImgWidth = 0;
+            images.forEach(image=>{ addTotalImgWidth(image.offsetWidth) })
         }
-		window.addEventListener("scroll", addMouseScrollPos);
-        window.addEventListener("mousemove", addMousePos);
-        window.addEventListener("mousedown", (evt)=>{
-            mouseStillDown = true;
-        });
-        window.addEventListener("mouseup", (evt)=>{
-            mouseStillDown = false;
-        });
+
+        const button = document.getElementById('buttonContainer');
+        const contact = document.getElementById('contact');
+        // const button = document.getElementById('buttonContainer');
+        function adjustFontSize() {
+            const fontSize = Math.floor(button.clientHeight/7); // Adjust the scaling factor (0.8) as needed
+            button.style.fontSize = fontSize + 'px';
+            contact.style.fontSize = fontSize*2 + 'px';
+            contact.style.paddingBottom = fontSize/2 + 'px';
+        }
+        window.addEventListener('resize', adjustFontSize);
+        window.addEventListener('resize', recalculateImgWidth);
+        adjustFontSize();
+
     </script>
-  </body>
 </html>
