@@ -6,13 +6,13 @@
         <title>karunochi</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/x-icon" href="logo\karunochi\other\iconLow.webp" />
+        <link rel="shortcut icon" type="image/x-icon" href="logo\karunochi\iconLow.webp" />
         <script>
             const jumlahImageDepan = 10;
         </script>
         <style>
             :root{
-                --scrollDuration:60s;
+                --scrollDuration:50s;
                 --tinggiPantulan:20%;
                 --blurPantulan:10px; /* makin gede makin blur*/
                 --usedWidth:80vw;   /* Buat ngatur lebar  layar gambar ngescroll | vw = % lebar  layar */
@@ -20,7 +20,6 @@
                 --alphaOverlay:20%;  /* % transparansi layar hitam didipan scrolling image*/
 
                 --imgScrollX:0px;
-                --imgScrollY:0px;
             }
             body{
                 background-color: black;
@@ -28,6 +27,8 @@
                 padding: 0;
                 border: 0;
                 overflow: hidden;
+                width: 100vw;
+                width: 100vh;
             }
             .askarMTopCollection2010{
                 width: var(--usedWidth);
@@ -119,14 +120,17 @@
             }
 
             #idk{
-                margin: 0% 20%;
+                left: 50%;
+                transform: translateX(-50%);
+                min-width: 40vw;
+                /* margin: 0% 20%; */
                 background-color:#fff;
                 color: black;
                 border-radius: 100vh;
                 padding: 5px 20px;
                 position: absolute;
                 bottom: 5%;
-                mix-blend-mode: lighten;
+                /* mix-blend-mode: lighten; */
             }
             @media only screen and (max-width: 1200px) {
                 #idk{
@@ -144,15 +148,16 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
                 gap: 1px;
-                color: white;
+                /* color: white; */
                 border-radius: 500vh;
             }
             #buttonContainer button {
-                font-family: "Noto Serif", sans-serif;
-                font-weight: bold;    
-                font-size: min(25px,3vw,5vh);
-                background-color: white;
-                height: 8vh;
+                font-family: "Noto Serif", serif;
+                font-weight: 700;    
+                color: #444;
+                font-size: min(25px,3vw,4.5vh);
+                background-color:#0000;
+                height: 12vh;
                 border-color: #0000;
             }
 
@@ -160,13 +165,44 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                max-height: 100%;
+                height: 100%;
             }
-
+            /* .logoContainer{
+                transform: translate(-50%,-50%);
+            } */
             #KRNC img {
                 max-width: min(100%,6vh);
-                max-height: 33%;
+                max-height: 100%;
                 object-fit: cover;
+
+                position: absolute;
+                /* transition: transform 2000ms cubic-bezier(0.850, 0.000, 0.000, 0.85); */
+                transition: transform 500ms ease-in-out;
+            }
+            .horizontal{
+                clip-path: polygon(0 0, 100% 0, 50% 50%, 100% 100%, 0 100%, 50% 50%);
+            }
+            .vertical{
+                clip-path: polygon(100% 0, 100% 100%, 50% 50%, 0 100%, 0 0, 50% 50%);
+            }
+            .logoIcon{
+                transform:rotate(-90deg);
+            }
+            .KRNCmid{
+                display: flex;
+                position: absolute;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                max-width: 100%;
+                
+                aspect-ratio: 1 / 1;
+            }
+            #buttonContainer button:hover{
+                color: #000;
+            }
+            #selectedButton{
+                color: #000 !important;
             }
 
             </style>
@@ -190,21 +226,37 @@
 
             <div class="stack" zLayer=3>
                 <div id="logo">
-                    <img src="logo\karunochi\white\Logotype (BG).webp">
+                    <img src="logo\karunochi\white\Logotype (BG).png">
                 </div>
             </div>
                 <div class="stack" zLayer=3>
                     <div id="idk">
                         <div id="buttonContainer">
-                            <button onclick="alert('yay')" class="box">Home</button>
-                            <button class="box">Works</button>
-                            <button class="box">
-                                <div id="KRNC" >
-                                    <img src="logo\karunochi\black\Logogram.webp">
+                            <button id="selectedButton" onclick="alert('yay')">Home</button>
+                            <button>Works</button>
+                            <button class="logoButton">
+                                <div id="KRNC">
+                                    <img src="logo\karunochi\other\LogoAnimation\cross.png">
+                                    <!-- <img src="logo\karunochi\other\LogoAnimation\LetterV.png"   class="KRNChild logogram vertical">
+                                    <img src="logo\karunochi\other\LogoAnimation\IconV.png"     class="KRNChild logoIcon vertical"> -->
+                                    <!-- <img src="logo\karunochi\other\LogoAnimation\LetterH.png"   class="KRNChild logogram horizontal">
+                                    <img src="logo\karunochi\other\LogoAnimation\IconH.png"     class="KRNChild logoIcon horizontal"> -->
+                                    <span class="KRNCmid vertical">
+                                        <!-- <img src="logo\karunochi\other\LogoAnimation\cross.png"> -->
+                                        <img src="logo\karunochi\other\LogoAnimation\LetterH.png"   class="KRNChild logogram rotate">
+                                        <img src="logo\karunochi\other\LogoAnimation\IconH.png"     class="KRNChild logoIcon rotate">
+                                        <!-- <img src="full.png"     class="KRNChild logoIcon rotate"> -->
+                                    </span>
+                                    <span class="KRNCmid horizontal">
+                                    <!-- <img src="logo\karunochi\other\LogoAnimation\cross.png"> -->
+                                        <img src="logo\karunochi\other\LogoAnimation\LetterV.png"   class="KRNChild logogram rotate">
+                                        <img src="logo\karunochi\other\LogoAnimation\IconV.png"     class="KRNChild logoIcon rotate">
+                                        <!-- <img src="full.png"     class="KRNChild logoIcon rotate"> -->
+                                    </span>
                                 </div>
                             </button>
-                            <button class="box">Social</button>
-                            <button class="box">Commision</button>
+                            <button>Social</button>
+                            <button>Commision</button>
                         </div>
                     </div>
                 </div>
@@ -252,5 +304,25 @@
                 addTotalImgSize(image.offsetWidth, image.offsetHeight);
         })}
         window.addEventListener('resize', recalculateImgWidth);
+        
+        const KRNC = document.querySelector('#KRNC')
+        const logogram = document.querySelectorAll('.logogram')
+        const logoIcon = document.querySelectorAll('.logoIcon')
+        KRNC.addEventListener('mouseover', () => {
+            logogram.forEach((img)=>{
+                img.style.transform = "rotate(90deg)";
+            })
+            logoIcon.forEach((img)=>{
+                img.style.transform = "rotate(0deg)";
+            })
+        });
+        KRNC.addEventListener('mouseout', () => {
+            logogram.forEach((img)=>{
+                img.style.transform = "rotate(0deg)";
+            })
+            logoIcon.forEach((img)=>{
+                img.style.transform = "rotate(-90deg)";
+            })
+        });
     </script>
 </html>
