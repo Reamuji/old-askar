@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -5,31 +6,35 @@
         <title>karunochi</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/x-icon" href="logo\karunochi\iconLow.png" />
+        <link rel="shortcut icon" type="image/x-icon" href="logo\karunochi\other\iconLow.png" />
         <script>
-            const jumlahImageDepan = 9;
+            const jumlahImageDepan = 10;
         </script>
         <style>
             :root{
-                --scrollDuration:25s;
+                --scrollDuration:60s;
+                --tinggiPantulan:20%;
+                --blurPantulan:10px; /* makin gede makin blur*/
+                --usedWidth:80vw;   /* Buat ngatur lebar  layar gambar ngescroll | vw = % lebar  layar */
+                --usedHeight:80vh;  /* Buat ngatur tinggi layar gambar ngescroll | vh = % tinggi layar */
+                --alphaOverlay:20%;  /* % transparansi layar hitam didipan scrolling image*/
 
-                --imgScroll:0px;
-                --usedWidth:85vw;
+                --imgScrollX:0px;
+                --imgScrollY:0px;
             }
             body{
                 background-color: black;
                 color: white;
-                margin: 0;
                 padding: 0;
                 border: 0;
                 overflow: hidden;
             }
             .askarMTopCollection2010{
                 width: var(--usedWidth);
-                height: 80vh;
+                height: var(--usedHeight);
                 overflow: hidden;
                 display: flex;
-                margin: 0 auto;
+                margin: 0% auto;
                 box-sizing: border-box;
             }
             .imgContainer{
@@ -38,216 +43,214 @@
                 animation:scroll-left var(--scrollDuration) linear infinite;
             }
             .imgContainer img{
-                width: auto;
                 height: 100%;
-                /* opacity: 50%; */
+            }
+            @media (max-aspect-ratio: 1/1) {
+                .askarMTopCollection2010{
+                    display: grid;
+                }
+                .imgContainer{
+                    flex-direction: column;
+                    animation:scroll-up var(--scrollDuration) linear infinite;
+                    width: 100%;
+                }
+                .imgContainer img{
+                    width: 100%;
+                    height: auto;
+                }
             }
             @keyframes scroll-left{
                 0%{
                     transform: translateX(0);
                 }
                 100%{
-                    transform: translateX(var(--imgScroll));
+                    transform: translateX(var(--imgScrollX));
+                }
+            }
+            @keyframes scroll-up{
+                0%{
+                    transform: translateY(0);
+                }
+                100%{
+                    transform: translateY(var(--imgScrollY));
                 }
             }
 
-            #UI {
-                z-index: 1;
+            #reflectContainer {
                 width: var(--usedWidth);
                 height: 20vh;
                 margin: 0 auto;
                 position: relative;
             }
-            #logo{
-                height: 100%;
-                width: 50%;
-                display: inline-block;
-                position: absolute;
-                top: 0; 
-                left: 0;
-            }
-            #logo img{
-                max-width: 100%;
-                max-height: 70%;
-                position: absolute; 
-                top: 50%; 
-                left: 0; 
-                transform: translateY(-50%);
-                mix-blend-mode: lighten;
-            }
-            #buttonContainer {
-                height: 100%;
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-            }
-
-            #middle {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-end;
-            }
-            .btn {
-                margin: 0;
-                font-family: "adobe-garamond-pro", serif;
-                cursor: pointer;
-                display: inline;
-                border: none;
-                background-color: inherit;
-                color: inherit;
-                width: 100%;
-                font-size: inherit;
-            }
-
-            .left-align {
-                float: left;
-            }
-
-            .right-align {
-                float: right;
-            }
-            
             #reflection {
                 position: absolute;
                 top: 100%;
                 left: 0;
-                transform: scaleY(-1) translate(0,10%);
-                filter: blur(20px);
-                z-index: -1;
+                transform: scaleY(-1) translate(0,var(--tinggiPantulan));
+                filter: blur(var(--blurPantulan));
                 /* -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(#0000), to(#0009)) */
                 mask-image: linear-gradient(to bottom, transparent, #0009);
                 -webkit-mask-image: linear-gradient(to bottom, transparent, #0009);
 		  	}
-        </style>
-    </head>
-    <body>
-        <div class="askarMTopCollection2010">
-            <div class="imgContainer"></div><div class="imgContainer"></div>
-        </div>
-        <div id="UI">
-            <div id="logo">
-                <img src="logo\karunochi\logotype-Marginless.png">
-            </div>
-            <div id="buttonContainer">
-                <div id="middle">
-                    <button class="btn" id="contact">
-                        <span class="left-align">Contact Me</span>
-                        <span class="right-align">→</span>
-                    </button>
-                    <div>
-                        <button class="btn detail">
-                            <span class="left-align">Commission Detail</span>
-                            <span class="right-align">→</span>
-                        </button>
-                        <button class="btn more">
-                            <span class="left-align">See More</span>
-                            <span class="right-align">→</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div id="reflection">
+            
+            .stack{
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100vw;
+            }
+            
+            .overlay{
+                background-color:rgba(0,0,0,var(--alphaOverlay));
+                height: 150vh;
+                width: 150vw;
+            }
+
+            #logo{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+            }
+            #logo img{
+                max-width: 33%;
+                max-height: 20%;
+            }
+
+            #idk{
+                margin: 0% 20%;
+                background-color:#fff;
+                color: black;
+                border-radius: 100vh;
+                padding: 5px 20px;
+                position: absolute;
+                bottom: 5%;
+                mix-blend-mode: lighten;
+            }
+            @media only screen and (max-width: 1200px) {
+                #idk{
+                    border-radius: 0;
+                    margin: 0%;
+                    width: 100%;
+                    padding: 5px 0px;
+                }
+                #logo img{
+                    max-width: 50%;
+                }
+            }
+
+            #buttonContainer{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+                gap: 1px;
+                color: white;
+                border-radius: 500vh;
+            }
+            #buttonContainer button {
+                font-family: "Noto Serif", sans-serif;
+                font-weight: bold;    
+                font-size: min(25px,3vw,5vh);
+                background-color: white;
+                height: 8vh;
+                border-color: #0000;
+            }
+
+            #KRNC {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                max-height: 100%;
+            }
+
+            #KRNC img {
+                max-width: min(100%,6vh);
+                max-height: 33%;
+                object-fit: cover;
+            }
+
+            </style>
+        </head>
+        <body>
+            <div class="stack" zLayer=1>
                 <div class="askarMTopCollection2010">
                     <div class="imgContainer"></div><div class="imgContainer"></div>
                 </div>
+                <div id="reflectContainer">
+                    <div id="reflection">
+                        <div class="askarMTopCollection2010">
+                            <div class="imgContainer"></div><div class="imgContainer"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </body>
+
+            <div class="stack overlay" zLayer=2>
+            </div>
+
+            <div class="stack" zLayer=3>
+                <div id="logo">
+                    <img src="logo\karunochi\white\Logotype (BG).png">
+                </div>
+            </div>
+                <div class="stack" zLayer=3>
+                    <div id="idk">
+                        <div id="buttonContainer">
+                            <button onclick="alert('yay')" class="box">Home</button>
+                            <button class="box">Works</button>
+                            <button class="box">
+                                <div id="KRNC" >
+                                    <img src="logo\karunochi\black\Logogram.png">
+                                </div>
+                            </button>
+                            <button class="box">Social</button>
+                            <button class="box">Commision</button>
+                        </div>
+                    </div>
+                </div>
+            </body>
     <script>
         let root = document.documentElement;
 		const setValue = (varName,value) => root.style.setProperty(varName, value);
         const getValue = (varName)       => getComputedStyle(root).getPropertyValue(varName);
 
-        
-        async function imageExists(imageUrl) {
-            try {
-                const response = await fetch(imageUrl);
-                if (response.ok) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (error) {
-                console.log('An error occurred while checking the image:', error);
-                return false;
-            }
-        }
-
         let img = "";
         let i=1;
         for(let i=1;i<=jumlahImageDepan;i++){
-            let image = `frontImage/${i}.png`
-            // if(imageExists(image+".png")){
-            //     image += ".png"
-            // }else if(imageExists(image+".jpg")){
-            //     image += ".jpg"
-            // }
+            let image = `frontImage/${i}.webp`
             img += `
                 <img src="${image}">`
         }
 
-        // const imageUrl = 'https://example.com/image.jpg';
-        // imageExists(imageUrl);
-
-        // let img = "";
-        // let i=1;
-        // while(true){
-        //     const image = `frontImage/${i}`;
-        //     let format = "";
-        //     if(imageExists(`${image}.png`)){
-        //         format = ".png";
-        //     }else if(imageExists(`${image}.jpg`)){
-        //         format = ".jpg";
-        //     }else{
-        //         break;
-        //     }
-                
-        //     img += `<img src="${image}${format}">`
-        //     i++;
-        // }
-
-
-        // const gambarAskar = ['https://pbs.twimg.com/media/Fzt3YmfX0AIUbwl?format=jpg&name=large','https://pbs.twimg.com/media/FzdDMmYaIAAttfr?format=jpg&name=4096x4096','https://pbs.twimg.com/media/Fy4KzpPaAAAnq1E?format=jpg&name=4096x4096'];
-        // const placeholder = ['https://fastly.picsum.photos/id/159/200/300.jpg?hmac=CC6862WSVsX6F74hcV30UzS4czPi0LO6zPJDaEaQeFU','https://fastly.picsum.photos/id/670/200/300.jpg?hmac=Ib58hZuwIQfcFZjEvKKi0p-j4GN1BGIkE7wLsa95Xk4','https://fastly.picsum.photos/id/674/200/300.jpg?hmac=kS3VQkm7AuZdYJGUABZGmnNj_3KtZ6Twgb5Qb9ITssY','https://fastly.picsum.photos/id/43/200/300.jpg?hmac=F_cVhLISpNmZ9wjirHfMJgX9rQzMYJbJE1xzfwmV36c','https://fastly.picsum.photos/id/593/200/300.jpg?hmac=q_vr9ioph2Tk-PMmB5PpX7uS2nSp2wxpYTktjucc1yQ','https://fastly.picsum.photos/id/958/200/300.jpg?hmac=oCwv3AFzS5VqZv3nvDJ3H5RzcDH2OiL2g-GGwWL5fsI','https://fastly.picsum.photos/id/100/300/200.jpg?hmac=ONiK6jtlF-h6EIOqhPFFyhyjF3SFqQ10MYWslZmlNyI','https://fastly.picsum.photos/id/456/300/200.jpg?hmac=_IJQ81tU1tfr0xGnGGNk3ka0PPuBBq0_AjFBsUd2ADs','https://fastly.picsum.photos/id/1013/300/200.jpg?hmac=OsBpo9MAg85j7O6gHzshfVJT3uWhz7-GW1piDibAqPA'];
-        // let listGambar = gambarAskar;
-        // listGambar.forEach(
-        //     gambar => {img += `<img src="${gambar}">`;}
-        // );
-        
         imgContainerList = Array.from(document.getElementsByClassName("imgContainer"));
         imgContainerList.forEach(
             imgContainer => {imgContainer.innerHTML = img});
 
         let totalImgWidth = 0;
+        let totalImgHeight = 0;
 
         // const topCollectionWidth = document.querySelector('#askarMTopCollection2010').offsetWidth;
-        function addTotalImgWidth(imgWidth){
+        function addTotalImgSize(imgWidth,imgHeight){
             totalImgWidth += imgWidth;
-            setValue ('--imgScroll',totalImgWidth*-1 + 'px');
+            setValue ('--imgScrollX',totalImgWidth*-1 + 'px');
+
+            totalImgHeight += imgHeight;
+            setValue ('--imgScrollY',totalImgHeight*-1 + 'px');
         }
         const images = document.querySelector('.imgContainer').querySelectorAll('img');
         images.forEach(image=>{
             image.addEventListener('load',
-                onLoad => { addTotalImgWidth(image.offsetWidth) }
-        )})
+                onLoad => { 
+                    addTotalImgSize(image.offsetWidth, image.offsetHeight);
+        })})
 
         const recalculateImgWidth=()=>{
+            console.log("recalculate")
             totalImgWidth = 0;
-            images.forEach(image=>{ addTotalImgWidth(image.offsetWidth) })
-        }
-
-        const button = document.getElementById('buttonContainer');
-        const contact = document.getElementById('contact');
-        // const button = document.getElementById('buttonContainer');
-        function adjustFontSize() {
-            const fontSize = Math.floor(button.clientHeight/7); // Adjust the scaling factor (0.8) as needed
-            button.style.fontSize = fontSize + 'px';
-            contact.style.fontSize = fontSize*2 + 'px';
-            contact.style.paddingBottom = fontSize/2 + 'px';
-        }
-        window.addEventListener('resize', adjustFontSize);
+            totalImgHeight = 0;
+            images.forEach(image=>{ 
+                addTotalImgSize(image.offsetWidth, image.offsetHeight);
+        })}
         window.addEventListener('resize', recalculateImgWidth);
-        adjustFontSize();
-
     </script>
 </html>
