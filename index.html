@@ -6,7 +6,7 @@
         <title>karunochi</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/x-icon" href="logo\karunochi\other\iconLow.webp" />
+        <link rel="shortcut icon" type="image/x-icon" href="logo\karunochi\iconLow.webp" />
         <script>
             const jumlahImageDepan = 10;
         </script>
@@ -104,8 +104,8 @@
             
             .overlay{
                 background-color:rgba(0,0,0,var(--alphaOverlay));
-                height: 100vh;
-                width: 100vw;
+                height: 150vh;
+                width: 150vw;
             }
 
             #logo{
@@ -122,7 +122,7 @@
             #idk{
                 left: 50%;
                 transform: translateX(-50%);
-                min-width: 40vw;
+                min-width: 60vw;
                 /* margin: 0% 20%; */
                 background-color:#fff;
                 color: black;
@@ -144,13 +144,22 @@
                 }
             }
 
-            #buttonContainer{
+            /* #buttonContainer{
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
                 gap: 1px;
-                /* color: white; */
+                color: white;
                 border-radius: 500vh;
+            }*/
+            #buttonContainer{
+                margin: 0 3vw;
+                display: flex;
+                border-radius: 50vh;
+                justify-content: space-between;
+                /* width: 40vw; */
             }
+            
+  
             #buttonContainer button {
                 font-family: "Noto Serif", serif;
                 font-weight: 700;    
@@ -160,7 +169,11 @@
                 height: 12vh;
                 border-color: #0000;
             }
-
+            .logoButton{
+                width: min(70px,5vw,6vh);
+                position: relative;
+                display: inline-block;
+            }
             #KRNC {
                 display: flex;
                 justify-content: center;
@@ -226,14 +239,12 @@
 
             <div class="stack" zLayer=3>
                 <div id="logo">
-                    <img src="logo\karunochi\white\Logotype (BG).webp">
+                    <img src="logo\karunochi\white\Logotype (BG).png">
                 </div>
             </div>
                 <div class="stack" zLayer=3>
                     <div id="idk">
                         <div id="buttonContainer">
-                            <button id="selectedButton" onclick="alert('yay')">Home</button>
-                            <button>Works</button>
                             <button class="logoButton">
                                 <div id="KRNC">
                                     <img src="logo\karunochi\other\LogoAnimation\cross.png">
@@ -255,8 +266,10 @@
                                     </span>
                                 </div>
                             </button>
+                            <button id="selectedButton" onclick="alert('yay')">Home</button>
+                            <button>Works</button>
                             <button>Social</button>
-                            <button>Commision</button>
+                            <button>Commission</button>
                         </div>
                     </div>
                 </div>
