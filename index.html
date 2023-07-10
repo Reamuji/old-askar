@@ -6,7 +6,7 @@
         <title>karunochi</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/x-icon" href="logo\karunochi\iconLow.webp" />
+        <link rel="shortcut icon" type="image/x-icon" href="logo\karunochi\other\iconLow.webp" />
         <script>
             const jumlahImageDepan = 10;
         </script>
@@ -104,22 +104,22 @@
             
             .overlay{
                 background-color:rgba(0,0,0,var(--alphaOverlay));
-                height: 150vh;
-                width: 150vw;
+                height: 100%;
+                width: 100%;
             }
 
             #logo{
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 100%;
+                height: 80%;
             }
             #logo img{
                 max-width: 33%;
                 max-height: 20%;
             }
 
-            #idk{
+            #buttonContainer{
                 left: 50%;
                 transform: translateX(-50%);
                 min-width: 60vw;
@@ -130,28 +130,30 @@
                 padding: 5px 20px;
                 position: absolute;
                 bottom: 5%;
-                /* mix-blend-mode: lighten; */
+                mix-blend-mode: lighten;
             }
             @media only screen and (max-width: 1200px) {
-                #idk{
-                    border-radius: 0;
+                #buttonContainer{
+                    /* border-radius: 0;
                     margin: 0%;
                     width: 100%;
-                    padding: 5px 0px;
+                    padding: 5px 0px; */
+                    width: 80%;
                 }
-                #logo img{
+                /* #logo img{
                     max-width: 50%;
-                }
+                } */
+
             }
 
-            /* #buttonContainer{
+            /* #buttonSplitter{
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
                 gap: 1px;
                 color: white;
                 border-radius: 500vh;
             }*/
-            #buttonContainer{
+            #buttonSplitter{
                 margin: 0 3vw;
                 display: flex;
                 border-radius: 50vh;
@@ -160,17 +162,24 @@
             }
             
   
-            #buttonContainer button {
+            #buttonSplitter button {
                 font-family: "Noto Serif", serif;
-                font-weight: 700;    
-                color: #444;
-                font-size: min(25px,3vw,4.5vh);
+                font-weight: 900;    
+                color: #777;
+                font-size: min(25px,3vw,5vh);
                 background-color:#0000;
                 height: 12vh;
                 border-color: #0000;
             }
+            #buttonSplitter button:hover{
+                color: #000;
+            }
+            #selectedButton{
+                color: #000 !important;
+                font-weight: 1000 important;    
+            }
             .logoButton{
-                width: min(70px,5vw,6vh);
+                width: min(75px,8vw,15vh);
                 position: relative;
                 display: inline-block;
             }
@@ -188,6 +197,7 @@
                 max-height: 100%;
                 object-fit: cover;
 
+                
                 position: absolute;
                 /* transition: transform 2000ms cubic-bezier(0.850, 0.000, 0.000, 0.85); */
                 transition: transform 500ms ease-in-out;
@@ -206,16 +216,28 @@
                 position: absolute;
                 justify-content: center;
                 align-items: center;
-                height: 100%;
-                max-width: 100%;
+                width: 100%;
+                max-height: 100%;
                 
                 aspect-ratio: 1 / 1;
             }
-            #buttonContainer button:hover{
-                color: #000;
+            button img{
+                width: min(50px,6vw,10vh);
+                aspect-ratio: 1 / 1;
             }
-            #selectedButton{
-                color: #000 !important;
+            .desktop{
+                display: none;
+            }
+
+            @media (min-width: 768px) {
+            /* On screens larger than 768px (desktop) */
+                .mobile{
+                    display: none;
+                }
+
+                .desktop{
+                    display: initial;
+                }
             }
 
             </style>
@@ -242,38 +264,53 @@
                     <img src="logo\karunochi\white\Logotype (BG).webp">
                 </div>
             </div>
-                <div class="stack" zLayer=3>
-                    <div id="idk">
-                        <div id="buttonContainer">
-                            <button class="logoButton">
-                                <div id="KRNC">
-                                    <img src="logo\karunochi\other\LogoAnimation\cross.png">
-                                    <!-- <img src="logo\karunochi\other\LogoAnimation\LetterV.png"   class="KRNChild logogram vertical">
-                                    <img src="logo\karunochi\other\LogoAnimation\IconV.png"     class="KRNChild logoIcon vertical"> -->
-                                    <!-- <img src="logo\karunochi\other\LogoAnimation\LetterH.png"   class="KRNChild logogram horizontal">
-                                    <img src="logo\karunochi\other\LogoAnimation\IconH.png"     class="KRNChild logoIcon horizontal"> -->
-                                    <span class="KRNCmid vertical">
-                                        <!-- <img src="logo\karunochi\other\LogoAnimation\cross.png"> -->
-                                        <img src="logo\karunochi\other\LogoAnimation\LetterH.png"   class="KRNChild logogram rotate">
-                                        <img src="logo\karunochi\other\LogoAnimation\IconH.png"     class="KRNChild logoIcon rotate">
-                                        <!-- <img src="full.png"     class="KRNChild logoIcon rotate"> -->
-                                    </span>
-                                    <span class="KRNCmid horizontal">
-                                    <!-- <img src="logo\karunochi\other\LogoAnimation\cross.png"> -->
-                                        <img src="logo\karunochi\other\LogoAnimation\LetterV.png"   class="KRNChild logogram rotate">
-                                        <img src="logo\karunochi\other\LogoAnimation\IconV.png"     class="KRNChild logoIcon rotate">
-                                        <!-- <img src="full.png"     class="KRNChild logoIcon rotate"> -->
-                                    </span>
-                                </div>
-                            </button>
-                            <button id="selectedButton" onclick="alert('yay')">Home</button>
-                            <button>Works</button>
-                            <button>Social</button>
-                            <button>Commission</button>
-                        </div>
+            <div class="stack" zLayer=3>
+                <div id="buttonContainer">
+                    <div id="buttonSplitter">
+                        <button class="logoButton desktop">
+                            <div id="KRNC">
+                                <img src="logo\karunochi\other\LogoAnimation\cross.webp">
+                                <!-- <img src="logo\karunochi\other\LogoAnimation\LetterV.webp"   class="KRNChild logogram vertical">
+                                <img src="logo\karunochi\other\LogoAnimation\IconV.webp"     class="KRNChild logoIcon vertical"> -->
+                                <!-- <img src="logo\karunochi\other\LogoAnimation\LetterH.webp"   class="KRNChild logogram horizontal">
+                                <img src="logo\karunochi\other\LogoAnimation\IconH.webp"     class="KRNChild logoIcon horizontal"> -->
+                                <span class="KRNCmid vertical">
+                                    <!-- <img src="logo\karunochi\other\LogoAnimation\cross.webp"> -->
+                                    <img src="logo\karunochi\other\LogoAnimation\LetterH.webp"   class="KRNChild logogram rotate">
+                                    <img src="logo\karunochi\other\LogoAnimation\IconH.webp"     class="KRNChild logoIcon rotate">
+                                    <!-- <img src="full.webp"     class="KRNChild lnContainerogoIcon rotate"> -->
+                                </span>
+                                <span class="KRNCmid horizontal">
+                                <!-- <img src="logo\karunochi\other\LogoAnimation\cross.webp"> -->
+                                    <img src="logo\karunochi\other\LogoAnimation\LetterV.webp"   class="KRNChild logogram rotate">
+                                    <img src="logo\karunochi\other\LogoAnimation\IconV.webp"     class="KRNChild logoIcon rotate">
+                                    <!-- <img src="full.webp"     class="KRNChild logoIcon rotate"> -->
+                                </span>
+                            </div>
+                        </button>
+                        <button id="selectedButton">
+                            <img class="mobile" src="logo\menuLogo\home.webp" alt="Home">
+                            <span class="desktop">Home</span>
+                        </button>
+                        <button>
+                            <img class="mobile" src="logo\menuLogo\works.webp" alt="Works">
+                            <span class="desktop">Works</span>
+                        </button>
+                        <button class="mobile">
+                            <img src="logo\menuLogo\KRNC.webp" alt="Logo">
+                        </button>
+                        <button>
+                            <img class="mobile" src="logo\menuLogo\contact.webp" alt="Contact">
+                            <span class="desktop">Contact</span>
+                        </button>
+                        <button>
+                            <img class="mobile" src="logo\menuLogo\commission.webp" alt="Commission">
+                            <span class="desktop">Commission</span>
+                        </button>
                     </div>
                 </div>
-            </body>
+            </div>
+        </body>
     <script>
         let root = document.documentElement;
 		const setValue = (varName,value) => root.style.setProperty(varName, value);
