@@ -17,7 +17,7 @@
                 --blurPantulan:10px; /* makin gede makin blur*/
                 --usedWidth:100vw;   /* Buat ngatur lebar  layar gambar ngescroll | vw = % lebar  layar */
                 --usedHeight:80vh;  /* Buat ngatur tinggi layar gambar ngescroll | vh = % tinggi layar */
-                --alphaOverlay:20%;  /* % transparansi layar hitam didipan scrolling image*/
+                --gelapBg:20%;      /* % seberapa gelap scrolling image*/
 
                 --imgScrollX:0px;
             }
@@ -103,7 +103,7 @@
             }
             
             .overlay{
-                background-color:rgba(0,0,0,var(--alphaOverlay));
+                background-color:rgba(0,0,0,var(--gelapBg));
                 height: 100%;
                 width: 100%;
             }
@@ -123,42 +123,25 @@
                 left: 50%;
                 transform: translateX(-50%);
                 min-width: 60vw;
-                /* margin: 0% 20%; */
                 background-color:#fff;
                 color: black;
                 border-radius: 100vh;
                 padding: 5px 20px;
                 position: absolute;
                 bottom: 5%;
-                mix-blend-mode: lighten;
+                /* mix-blend-mode: lighten; */
             }
             @media only screen and (max-width: 1200px) {
+                /* button containernya kalau udah gk muat tulisan */
                 #buttonContainer{
-                    /* border-radius: 0;
-                    margin: 0%;
-                    width: 100%;
-                    padding: 5px 0px; */
                     width: 80%;
                 }
-                /* #logo img{
-                    max-width: 50%;
-                } */
-
             }
-
-            /* #buttonSplitter{
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-                gap: 1px;
-                color: white;
-                border-radius: 500vh;
-            }*/
             #buttonSplitter{
                 margin: 0 3vw;
                 display: flex;
                 border-radius: 50vh;
                 justify-content: space-between;
-                /* width: 40vw; */
             }
             
   
@@ -168,7 +151,7 @@
                 color: #777;
                 font-size: min(25px,3vw,5vh);
                 background-color:#0000;
-                height: 12vh;
+                height: min(10vh,11vw);
                 border-color: #0000;
             }
             #buttonSplitter button:hover{
@@ -178,7 +161,7 @@
                 color: #000 !important;
                 font-weight: 1000 important;    
             }
-            .logoButton{
+            #logoButton{
                 width: min(75px,8vw,15vh);
                 position: relative;
                 display: inline-block;
@@ -189,17 +172,11 @@
                 align-items: center;
                 height: 100%;
             }
-            /* .logoContainer{
-                transform: translate(-50%,-50%);
-            } */
             #KRNC img {
                 max-width: min(100%,6vh);
                 max-height: 100%;
                 object-fit: cover;
-
-                
                 position: absolute;
-                /* transition: transform 2000ms cubic-bezier(0.850, 0.000, 0.000, 0.85); */
                 transition: transform 500ms ease-in-out;
             }
             .horizontal{
@@ -225,25 +202,37 @@
                 width: min(50px,6vw,10vh);
                 aspect-ratio: 1 / 1;
             }
+
             .desktop{
                 display: none;
             }
-
+            #logoButton{
+                order: 1;
+            }
+            .rightSideButton{
+                order: 2;
+            }
             @media (min-width: 768px) {
             /* On screens larger than 768px (desktop) */
                 .mobile{
                     display: none;
                 }
-
                 .desktop{
                     display: initial;
+                }
+                
+                #buttonSplitter button {
+                    height: 12vh;
+                }
+                #logoButton{
+                    order: -1;
                 }
             }
 
             </style>
         </head>
         <body>
-            <div class="stack" zLayer=1>
+            <div class="stack">
                 <div class="askarMTopCollection2010">
                     <div class="imgContainer"></div><div class="imgContainer"></div>
                 </div>
@@ -256,35 +245,27 @@
                 </div>
             </div>
 
-            <div class="stack overlay" zLayer=2>
+            <div class="stack overlay">
             </div>
 
-            <div class="stack" zLayer=3>
+            <div class="stack">
                 <div id="logo">
                     <img src="logo\karunochi\white\Logotype (BG).webp">
                 </div>
             </div>
-            <div class="stack" zLayer=3>
+            <div class="stack">
                 <div id="buttonContainer">
                     <div id="buttonSplitter">
-                        <button class="logoButton desktop">
+                        <button id="logoButton">
                             <div id="KRNC">
                                 <img src="logo\karunochi\other\LogoAnimation\cross.webp">
-                                <!-- <img src="logo\karunochi\other\LogoAnimation\LetterV.webp"   class="KRNChild logogram vertical">
-                                <img src="logo\karunochi\other\LogoAnimation\IconV.webp"     class="KRNChild logoIcon vertical"> -->
-                                <!-- <img src="logo\karunochi\other\LogoAnimation\LetterH.webp"   class="KRNChild logogram horizontal">
-                                <img src="logo\karunochi\other\LogoAnimation\IconH.webp"     class="KRNChild logoIcon horizontal"> -->
                                 <span class="KRNCmid vertical">
-                                    <!-- <img src="logo\karunochi\other\LogoAnimation\cross.webp"> -->
                                     <img src="logo\karunochi\other\LogoAnimation\LetterH.webp"   class="KRNChild logogram rotate">
                                     <img src="logo\karunochi\other\LogoAnimation\IconH.webp"     class="KRNChild logoIcon rotate">
-                                    <!-- <img src="full.webp"     class="KRNChild lnContainerogoIcon rotate"> -->
                                 </span>
                                 <span class="KRNCmid horizontal">
-                                <!-- <img src="logo\karunochi\other\LogoAnimation\cross.webp"> -->
                                     <img src="logo\karunochi\other\LogoAnimation\LetterV.webp"   class="KRNChild logogram rotate">
                                     <img src="logo\karunochi\other\LogoAnimation\IconV.webp"     class="KRNChild logoIcon rotate">
-                                    <!-- <img src="full.webp"     class="KRNChild logoIcon rotate"> -->
                                 </span>
                             </div>
                         </button>
@@ -292,18 +273,15 @@
                             <img class="mobile" src="logo\menuLogo\home.webp" alt="Home">
                             <span class="desktop">Home</span>
                         </button>
-                        <button>
+                        <button onclick="window.location.href = './works.html';">
                             <img class="mobile" src="logo\menuLogo\works.webp" alt="Works">
                             <span class="desktop">Works</span>
                         </button>
-                        <button class="mobile">
-                            <img src="logo\menuLogo\KRNC.webp" alt="Logo">
-                        </button>
-                        <button>
+                        <button class="rightSideButton">
                             <img class="mobile" src="logo\menuLogo\contact.webp" alt="Contact">
                             <span class="desktop">Contact</span>
                         </button>
-                        <button>
+                        <button class="rightSideButton">
                             <img class="mobile" src="logo\menuLogo\commission.webp" alt="Commission">
                             <span class="desktop">Commission</span>
                         </button>
