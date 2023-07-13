@@ -36,6 +36,34 @@
             display: none;
         }
 
+        /* ============================================== imgViewer ============================================== */
+        .imgViewer{
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+        .imageWindow{
+            position: absolute;
+            width: max(auto,80vw);
+            max-height: 80vh;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background-color: #fff;
+        }
+        .bgOverlay{
+            position: absolute;
+            background-color:rgba(0,0,0,35%);
+            height: 100%;
+            width: 100%;
+            backdrop-filter: blur(3px);
+        }
+        .hide{
+            display: none;
+        }
+
         /* ============================================== MAIN MENU ============================================== */
         .buttonContainer{
             left: 50%;
@@ -269,34 +297,6 @@
                 z-index:-1!important;
             }
 
-            /* ============================================== SCROLLBAR ============================================== */
-            .imgViewer{
-                position: fixed;
-                width: 100vw;
-                height: 100vh;
-                top: 0;
-                left: 0;
-            }
-            .imageWindow{
-                position: absolute;
-                width: max(auto,80vw);
-                max-height: 80vh;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%,-50%);
-                background-color: #fff;
-            }
-            
-            .bgOverlay{
-                position: absolute;
-                background-color:rgba(0,0,0,35%);
-                height: 100%;
-                width: 100%;
-                backdrop-filter: blur(3px);
-            }
-            .hide{
-                display: none;
-            }
             
         }
     </style>
