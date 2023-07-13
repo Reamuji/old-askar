@@ -74,7 +74,7 @@
         }
         .selectedButton{
             color: #000 !important;
-            font-weight: 1000 important;    
+            font-weight: 1000 !important;    
         }
 
         /* ======================= animated logo ======================= */
@@ -169,12 +169,6 @@
                 transform: translateX(-50%);
                 /* mix-blend-mode: difference; */
             }
-            .bgOverlay{
-                position: absolute;
-                background-color:rgba(0,0,0,50%);
-                height: 100%;
-                width: 100%;
-            }
             /* ======================= border text ======================= */
             .border{
                 --borderSize: 1vw;
@@ -202,6 +196,7 @@
                 font-size: 1.5em;
                 margin: 5px;
             }
+
             /* ======== Button ======== */
             .selectSection a{
             color:#bbb;
@@ -211,7 +206,6 @@
             color:#fff;
             text-decoration: inherit; /* no underline */
             }
-
 
             /* ============================================== GALERY ============================================== */
             .askarMTopCollection2010{
@@ -224,6 +218,15 @@
             }
 
             /* ============================================== DRAWING ============================================== */
+            .svgContainer{
+                margin: 0;
+                padding: 0;
+                position: absolute;
+                overflow: hidden;
+                z-index: -100;
+                top: 0;
+                right: 0;
+            }
             svg{
                 background-color: var(--bgColor);
                 transform: scale(var(--svgScale)); /* Set the desired scale factor */
@@ -240,6 +243,7 @@
                 transform: scale(var(--svgScale)); /* Set the desired scale factor */
                 z-index:1003;
             }
+
             /* ============================================== SCROLLBAR ============================================== */
             ::-webkit-scrollbar {
                 width: 10px;
@@ -264,18 +268,48 @@
                 transform: scale(100%)!important;
                 z-index:-1!important;
             }
+
+            /* ============================================== SCROLLBAR ============================================== */
+            .imgViewer{
+                position: fixed;
+                width: 100vw;
+                height: 100vh;
+                top: 0;
+                left: 0;
+            }
+            .imageWindow{
+                position: absolute;
+                width: max(auto,80vw);
+                max-height: 80vh;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                background-color: #fff;
+            }
+            
+            .bgOverlay{
+                position: absolute;
+                background-color:rgba(0,0,0,35%);
+                height: 100%;
+                width: 100%;
+                backdrop-filter: blur(3px);
+            }
+            .hide{
+                display: none;
+            }
+            
         }
     </style>
 </head>
 <body>
-    <div style="position: absolute; overflow: hidden; z-index: -100;">
+    <div class="svgContainer">
         <svg shape-rendering="crispEdges">
             <polyline points=""
             style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />
         </svg>
     </div>
     <div class="sideMenu desktop fixed">
-        <img src="asset\video\scrabble.gif" style="opacity: 0.5;">
+        <img src="asset\video\scrabble.gif" style="opacity: 1;">
         <div class="bgOverlay"></div>
         <div class="selectSection">
             <p class="bigger">works</p>
@@ -330,6 +364,19 @@
                 <span class="desktop">Commission</span>
             </button>
         </div>
+    </div>
+    <div class="imgViewer hide">
+        <div class="bgOverlay"></div>
+        <img class="imageWindow">
+        <!-- <div class="viewerWindow">
+            <button class="previousImage" onclick="">
+                <img class="mobile" src="" alt="Commission">
+            </button>
+            <img class="imageDisplay">
+            <button class="previousImage" onclick="">
+                <img class="mobile" src="" alt="Commission">
+            </button>
+        </div> -->
     </div>
 
 
@@ -390,6 +437,13 @@
         }, 1000);
         window.addEventListener('scroll', updateStats);
         
+        window.addEventListener('resize', ()=>{
+            setTimeout(()=>{
+                statScroll = 0;
+                setValue("statScroll",statScroll+"px");
+            },100)
+        })
+        
         // ================================ Smooth href ================================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -420,8 +474,9 @@
                 img.style.transform = "rotate(-90deg)";
             })
         });
-        // ================================ image display ================================
+        // ================================ image galery ================================
         let illustrationSect = document.querySelector('#illustration');
+        let musicSect = document.querySelector('#music');
         let artworkTemplate = document.createElement("img");
         let usedY = 0;
         let usedX = 0;
@@ -444,7 +499,7 @@
         randomY = randomInt(1, 4);
         usedY += randomY;
         artwork.forEach(directory => {
-            randomX = random(0.25,0.75);
+            randomX = random(0,1);
             usedX = (usedX + randomX) % 1
             randomZ = randomInt(50, 90);
             let img = artworkTemplate.cloneNode();
@@ -455,6 +510,9 @@
             img.style.zIndex = randomZ-100;
             img.style.transform = (`scale(${randomZ}%)`);
 
+            img.addEventListener('click', 
+                onClick => openImageViewer(img.src)
+            );
             img.addEventListener('load',
             onLoad => { 
                 img.style.setProperty("--imageWidth", 45 * Math.sqrt(img.offsetWidth/img.offsetHeight) + "%");
@@ -464,8 +522,26 @@
 
             randomY = randomInt(15, 28);
             usedY += randomY;
+
+            musicSect.style.top = usedY+50 + "vw";
         })
         
+        // ================================ image full display ================================
+        let imageViewer = document.querySelector('.imgViewer');
+        let imageWindow = document.querySelector('.imageWindow');
+
+        
+        imageViewer.addEventListener('click', 
+            onClick => closeImageViewer()
+        );
+
+        function openImageViewer(imgSrc){
+            imageViewer.classList.remove('hide');
+            imageWindow.src = imgSrc;
+        }
+        function closeImageViewer(){
+            imageViewer.classList.add('hide');
+        }
         // ================================ Line Drawing ================================
         const svg = document.querySelector('svg');
 
