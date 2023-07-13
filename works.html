@@ -1,0 +1,530 @@
+<!doctype html>
+<html>
+<head>
+    <title>karunochi</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="logo\karunochi\other\iconLow.webp" />
+    <script>
+        const gambar_pas_diklik_aja = false;
+        const waktu_ngilang = 4000;
+    </script>
+    <style>
+        :root{
+            --statScroll: 0px;
+            --sideMenuWidth: 30%;
+            --galeryWidth: calc(100% - var(--sideMenuWidth));
+            
+            
+            --bgColor:#151215;
+            --lineColor:#fff;
+            
+            --normalImageWidth: 14vw;
+        }
+
+        body{
+            background-color: var(--bgColor);
+            color: white;
+            padding: 0;
+            border: 0;
+            /* overflow-x: hidden; */
+            width: 100vw;
+            height: 100%;
+        }
+
+        .desktop{
+            display: none;
+        }
+
+        /* ============================================== MAIN MENU ============================================== */
+        .buttonContainer{
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: 60vw;
+            background-color:#fff;
+            color: #000;
+            border-radius: 100vh;
+            padding: 5px 20px;
+            position: fixed;
+            bottom: 5%;
+            /* mix-blend-mode: lighten; */
+        }
+        @media only screen and (max-width: 1200px) {
+            .buttonContainer{
+                width: 80%;
+            }
+        }
+        .buttonSplitter{
+            margin: 0 3vw;
+            display: flex;
+            border-radius: 50vh;
+            justify-content: space-between;
+        }
+        .buttonSplitter button {
+            font-family: "Noto Serif", serif;
+            font-weight: 900;    
+            color: #777;
+            font-size: min(25px,3vw,5vh);
+            background-color:#0000;
+            height: min(10vh,11vw);
+            border-color: #0000;
+        }
+        .buttonSplitter button:hover{
+            color: #000;
+        }
+        .selectedButton{
+            color: #000 !important;
+            font-weight: 1000 important;    
+        }
+
+        /* ======================= animated logo ======================= */
+        .logoButton{
+            width: min(75px,8vw,15vh);
+            position: relative;
+            display: inline-block;
+        }
+        .KRNC {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        .KRNC img {
+            max-width: min(100%,6vh);
+            max-height: 100%;
+            object-fit: cover;
+            position: absolute;
+            transition: transform 500ms ease-in-out;
+        }
+        .horizontal{
+            clip-path: polygon(0 0, 100% 0, 50% 50%, 100% 100%, 0 100%, 50% 50%);
+        }
+        .vertical{
+            clip-path: polygon(100% 0, 100% 100%, 50% 50%, 0 100%, 0 0, 50% 50%);
+        }
+        .logoIcon{
+            transform:rotate(-90deg);
+        }
+        .KRNCmid{
+            display: flex;
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-height: 100%;
+            
+            aspect-ratio: 1 / 1;
+        }
+        button img{
+            width: min(50px,6vw,10vh);
+            aspect-ratio: 1 / 1;
+        }
+        .logoButton{
+            order: 1;
+        }
+        .rightSideButton{
+            order: 2;
+        }
+        /* ============================================== GALERY ============================================== */
+        /* img:hover{
+            position: relative;
+            transform: scale(120%, 120%) rotateY(0deg);
+            z-index:100;
+            transform-origin: top center;
+        } */
+        /* ============================================== DESKTOP ============================================== */
+        .desktop{ 
+            display: none;/* hide on mobile*/
+        }
+        @media (min-width: 768px) {
+            .mobile{
+                display: none;
+            }
+            .desktop{
+                display: initial;
+            }
+             /* ======================= Main menu ======================= */
+            .buttonSplitter button {
+                height: 12vh;
+            }
+            .logoButton{
+                order: -1;
+            }
+            
+
+            /* ============================================== SIDE MENU ============================================== */
+            .sideMenu{
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: var(--sideMenuWidth);
+                height: 100%;
+                overflow: hidden;
+            }
+            /* ======================= background ======================= */
+            .sideMenu>img{
+                position: absolute;
+                height: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                /* mix-blend-mode: difference; */
+            }
+            .bgOverlay{
+                position: absolute;
+                background-color:rgba(0,0,0,50%);
+                height: 100%;
+                width: 100%;
+            }
+            /* ======================= border text ======================= */
+            .border{
+                --borderSize: 1vw;
+                position: absolute;
+                top: 1%;
+                right: 0;
+                width: var(--borderSize);
+                font-size: var(--borderSize);
+                height: 79%;
+                overflow: hidden;
+            }
+            .statsContainer {
+                white-space: nowrap;
+                transform: rotate(90deg) translateX(var(--statScroll));
+            }
+            /* ======================= Selection ======================= */
+            .selectSection{
+                position: absolute;
+                font-size: 1.75vw;
+                margin-top: 20%;
+                margin-left: 20%;
+            }
+            .bigger{
+                font-weight: bold;
+                font-size: 1.5em;
+                margin: 5px;
+            }
+            /* ======== Button ======== */
+            .selectSection a{
+            color:#bbb;
+            text-decoration: inherit; /* no underline */
+            }
+            a:hover{
+            color:#fff;
+            text-decoration: inherit; /* no underline */
+            }
+
+
+            /* ============================================== GALERY ============================================== */
+            .askarMTopCollection2010{
+                position: absolute;
+                width: var(--galeryWidth);
+                right: 0;
+            }
+            .illustration{
+                width: 100%;
+            }
+
+            /* ============================================== DRAWING ============================================== */
+            svg{
+                background-color: var(--bgColor);
+                transform: scale(var(--svgScale)); /* Set the desired scale factor */
+                height: 500vh;
+                width: 100vw;
+                image-rendering: optimizeSpeed; /* Older versions of Chrome and Safari */
+                image-rendering: -moz-crisp-edges; /* Firefox */
+                image-rendering: -webkit-optimize-contrast; /* Webkit (Chrome, Safari) */
+                image-rendering: -o-crisp-edges; /* Opera */
+                image-rendering: pixelated; /*CSS4*/
+                -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+            }
+            polyline{
+                transform: scale(var(--svgScale)); /* Set the desired scale factor */
+                z-index:1003;
+            }
+            /* ============================================== SCROLLBAR ============================================== */
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #0000; 
+                border-radius: 0px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #fff7; 
+                border-radius: 100vw;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #fffa; 
+            }
+
+            .illustration img{
+                transition: transform 0.5s ease-in-out;
+                transform-origin: center;
+            }
+            .illustration img:hover{
+                transform: scale(100%)!important;
+                z-index:-1!important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div style="position: absolute; overflow: hidden; z-index: -100;">
+        <svg shape-rendering="crispEdges">
+            <polyline points=""
+            style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />
+        </svg>
+    </div>
+    <div class="sideMenu desktop fixed">
+        <img src="asset\video\scrabble.gif" style="opacity: 0.5;">
+        <div class="bgOverlay"></div>
+        <div class="selectSection">
+            <p class="bigger">works</p>
+            <a href="#illustration">※illustration</a><br>
+            <a href="#music">※music</a>
+        </div>
+        <div class="border">
+            <div class="statsContainer">
+                <span class="stats">windowSize : 1080x720 | scrollDistance : 0px |  timeElapsed :  0s | section : works | sub-section : illustration | </span>
+                <span class="stats"></span>
+                <span class="stats"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="askarMTopCollection2010">
+        <div id="illustration" class="illustration"></div>
+        <div id="music" class="music" style="position: absolute; top: 150vh; right: 0; height: 150vh;">
+            Test Msuci
+        </div>
+    </div>
+
+    <div class="buttonContainer">
+        <div class="buttonSplitter">
+            <button class="logoButton">
+                <div class="KRNC">
+                    <img src="logo\karunochi\other\LogoAnimation\cross.webp">
+                    <span class="KRNCmid vertical">
+                        <img src="logo\karunochi\other\LogoAnimation\LetterH.webp"   class="KRNChild logogram rotate">
+                        <img src="logo\karunochi\other\LogoAnimation\IconH.webp"     class="KRNChild logoIcon rotate">
+                    </span>
+                    <span class="KRNCmid horizontal">
+                        <img src="logo\karunochi\other\LogoAnimation\LetterV.webp"   class="KRNChild logogram rotate">
+                        <img src="logo\karunochi\other\LogoAnimation\IconV.webp"     class="KRNChild logoIcon rotate">
+                    </span>
+                </div>
+            </button>
+            <button onclick="window.location.href = './index.html';">
+                <img class="mobile" src="logo\menuLogo\home.webp" alt="Home">
+                <span class="desktop">Home</span>
+            </button>
+            <button class="selectedButton">
+                <img class="mobile" src="logo\menuLogo\works.webp" alt="Works">
+                <span class="desktop">Works</span>
+            </button>
+            <button class="rightSideButton">
+                <img class="mobile" src="logo\menuLogo\contact.webp" alt="Contact">
+                <span class="desktop">Contact</span>
+            </button>
+            <button class="rightSideButton">
+                <img class="mobile" src="logo\menuLogo\commission.webp" alt="Commission">
+                <span class="desktop">Commission</span>
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        const root = document.documentElement;
+		const setValue  = (varName,value)   => root.style.setProperty("--"+varName, value);
+        const getValue  = (varName)         => getComputedStyle(root).getPropertyValue("--"+varName);
+        const random    = (start,end) =>  (start + Math.random() * (end-start));
+        const randomInt = (start,end) =>  Math.floor((start + Math.random() * (end-start)));
+
+
+        
+        // ================================ Stats updater ================================
+        let stats = document.querySelectorAll('.stats');
+        let statsContainer = document.querySelector('.statsContainer');
+        let statWidth = stats[0].offsetWidth;
+
+        const addTrailingZeros = (num, totalLength) => String(num).padStart(totalLength, '0');
+        let timeElapsed = 0;
+        
+        let musicY = () => document.querySelector('#music').getBoundingClientRect().top;
+        let statScroll = 0;
+        const section = () => window.scrollY >= musicY() ? "music" : "illustration";
+
+        function currentTime(){
+            let now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let formattedHours = addTrailingZeros(hours,2);
+            let formattedMinutes = addTrailingZeros(minutes,2);
+            return `${formattedHours}:${formattedMinutes}`;
+        }
+
+        function updateStats() {
+            statWidth = stats[0].offsetWidth;
+            stats.forEach((span) => {
+                span.textContent = ""+
+                `windowSize : ${window.innerWidth}x${window.innerHeight} | `+
+                `scrollDistance : ${addTrailingZeros(Math.round(window.scrollY),4)}px | `+
+                `currentTime : ${currentTime()} | `+
+                `timeElapsed : ${addTrailingZeros(timeElapsed,3)}s | `+
+                `section : works | `;
+            });
+        }
+        updateStats();
+
+        //Scroll stats
+        setInterval(()=>{
+            statWidth = stats[0].offsetWidth;
+            statScroll = (statScroll - 1) % statWidth;
+            setValue("statScroll",statScroll+"px");
+        }, 50);
+
+        //Clock stat
+        setInterval(()=>{
+            timeElapsed++; 
+            updateStats();
+        }, 1000);
+        window.addEventListener('scroll', updateStats);
+        
+        // ================================ Smooth href ================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // ================================ Rotate Logo ================================
+        const KRNC = document.querySelector('.KRNC')
+        const logogram = document.querySelectorAll('.logogram')
+        const logoIcon = document.querySelectorAll('.logoIcon')
+        KRNC.addEventListener('mouseover', () => {
+            logogram.forEach((img)=>{
+                img.style.transform = "rotate(90deg)";
+            })
+            logoIcon.forEach((img)=>{
+                img.style.transform = "rotate(0deg)";
+            })
+        });
+        KRNC.addEventListener('mouseout', () => {
+            logogram.forEach((img)=>{
+                img.style.transform = "rotate(0deg)";
+            })
+            logoIcon.forEach((img)=>{
+                img.style.transform = "rotate(-90deg)";
+            })
+        });
+        // ================================ image display ================================
+        let illustrationSect = document.querySelector('#illustration');
+        let artworkTemplate = document.createElement("img");
+        let usedY = 0;
+        let usedX = 0;
+        let randomY = 0;
+        let randomX = 0;
+        let randomZ = 0;
+        let normalImgWidth = 40;//%
+
+        let artwork = []
+        for(let i=1;i<=10;i++){
+            artwork.push(`frontImage/${i}.webp`);
+        }
+
+        artworkTemplate.src = "frontImage/1.webp";
+        artworkTemplate.style.position = "absolute";
+        artworkTemplate.style.top = usedY + "px" ;
+        artworkTemplate.style.setProperty("--imageWidth", "40%"); //later set this to 1/aspect ratio = x/y * 40%
+        artworkTemplate.style.width = "var(--imageWidth)";
+        
+        randomY = randomInt(1, 4);
+        usedY += randomY;
+        artwork.forEach(directory => {
+            randomX = random(0.25,0.75);
+            usedX = (usedX + randomX) % 1
+            randomZ = randomInt(50, 90);
+            let img = artworkTemplate.cloneNode();
+
+            img.src = directory;
+            img.style.top = usedY + "vw" ;
+            img.style.left = `calc((100% - var(--imageWidth)) * ${usedX})` ;
+            img.style.zIndex = randomZ-100;
+            img.style.transform = (`scale(${randomZ}%)`);
+
+            img.addEventListener('load',
+            onLoad => { 
+                img.style.setProperty("--imageWidth", 45 * Math.sqrt(img.offsetWidth/img.offsetHeight) + "%");
+            });
+
+            illustrationSect.appendChild(img);
+
+            randomY = randomInt(15, 28);
+            usedY += randomY;
+        })
+        
+        // ================================ Line Drawing ================================
+        const svg = document.querySelector('svg');
+
+        let mousePos = [];
+        let mouseStillDown = false;
+        const drawOnMouseDown = gambar_pas_diklik_aja;
+        const lineMinLen = 0;
+
+        let lastPos = [-999,-999];
+
+        function addMousePos(evt) {
+            if(!mouseStillDown && drawOnMouseDown){
+                return;
+            }
+            const rect = svg.getBoundingClientRect();
+            const mouseX = (evt.clientX - rect.left);
+            const mouseY = (evt.clientY - rect.top)
+            lastPos = [mouseX, mouseY-window.scrollY];
+            addLinePoint([mouseX, mouseY]);
+        }
+
+        function addMouseScrollPos(evt) {
+            if(drawOnMouseDown){
+                return;
+            }
+            // console.log(lastPos);
+            const mouseX = lastPos[0];
+            const mouseY = lastPos[1];
+            addLinePoint([mouseX, mouseY+window.scrollY]);
+        }
+
+        const fadeTime = waktu_ngilang;
+        function addLinePoint(newCoor){
+            mousePos.push(newCoor);
+            updateLine();
+            setTimeout(eraseLinePoint,fadeTime);
+        }
+
+        function eraseLinePoint(){
+            mousePos.shift();
+            updateLine();
+        }
+
+        function updateLine(){
+            let formattedPos = "";
+            mousePos.forEach((coor) => {
+                formattedPos += `${coor[0]},${coor[1]} `;
+            });
+            svg.innerHTML = `<polyline points="${formattedPos}" style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />`;
+        }
+
+        window.addEventListener("scroll", addMouseScrollPos);
+        window.addEventListener("mousemove", addMousePos);
+        window.addEventListener("mousedown", (evt)=>{
+            mouseStillDown = true;
+        });
+        window.addEventListener("mouseup", (evt)=>{
+            mouseStillDown = false;
+        });
+    </script>
+</body>
+</html>
