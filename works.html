@@ -14,6 +14,7 @@
             --statScroll: 0px;
             --sideMenuWidth: 30%;
             --galeryWidth: calc(100% - var(--sideMenuWidth));
+            --scroll: 0px;
             
             
             --bgColor:#151215;
@@ -46,12 +47,13 @@
         }
         .imageWindow{
             position: absolute;
-            width: max(auto,80vw);
-            max-height: 80vh;
+            width: 90vw;
+            height: 90vh;
+            object-fit: contain;
+            object-position: center;
             top: 50%;
             left: 50%;
             transform: translate(-50%,-50%);
-            background-color: #fff;
         }
         .bgOverlay{
             position: absolute;
@@ -59,6 +61,7 @@
             height: 100%;
             width: 100%;
             backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px); /* safari */
         }
         .hide{
             display: none;
@@ -310,7 +313,7 @@
     </div>
     <div class="sideMenu desktop fixed">
         <img src="asset\video\scrabble.gif" style="opacity: 1;">
-        <div class="bgOverlay"></div>
+        <!-- <div class="bgOverlay"></div> -->
         <div class="selectSection">
             <p class="bigger">works</p>
             <a href="#illustration">※illustration</a><br>
@@ -483,11 +486,16 @@
         let randomY = 0;
         let randomX = 0;
         let randomZ = 0;
+        let scrollSpeed = 0;
         let normalImgWidth = 40;//%
 
         let artwork = []
         for(let i=1;i<=10;i++){
-            artwork.push(`frontImage/${i}.webp`);
+            const j = {
+                lowSrc: `frontImage/${i}.webp`,
+                HDSrc: `frontImageHD/${i}.png`
+            };
+            artwork.push(j);
         }
 
         artworkTemplate.src = "frontImage/1.webp";
@@ -498,20 +506,23 @@
         
         randomY = randomInt(1, 4);
         usedY += randomY;
-        artwork.forEach(directory => {
-            randomX = random(0,1);
+        artwork.forEach(image => {
+            randomX = random(0.3,0.7);
             usedX = (usedX + randomX) % 1
             randomZ = randomInt(50, 90);
+            scrollSpeed = (randomZ-50)/-80;   //0-10
+
             let img = artworkTemplate.cloneNode();
 
-            img.src = directory;
+            img.src = image.lowSrc;
             img.style.top = usedY + "vw" ;
+            // img.style.top = `calc( ${usedY}vw + var(--scroll)*${scrollSpeed})`;
             img.style.left = `calc((100% - var(--imageWidth)) * ${usedX})` ;
             img.style.zIndex = randomZ-100;
             img.style.transform = (`scale(${randomZ}%)`);
 
             img.addEventListener('click', 
-                onClick => openImageViewer(img.src)
+                onClick => openImageViewer(image.HDSrc)
             );
             img.addEventListener('load',
             onLoad => { 
@@ -520,12 +531,17 @@
 
             illustrationSect.appendChild(img);
 
-            randomY = randomInt(15, 28);
+            randomY = randomInt(18, 28);
             usedY += randomY;
 
-            musicSect.style.top = usedY+50 + "vw";
+            musicSect.style.top = usedY+20 + "vw";
         })
         
+        const updateScrollValue = (event) => {
+            setValue('scroll', window.scrollY + "px");
+        };
+
+        window.addEventListener("scroll", updateScrollValue);
         // ================================ image full display ================================
         let imageViewer = document.querySelector('.imgViewer');
         let imageWindow = document.querySelector('.imageWindow');
