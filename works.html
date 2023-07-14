@@ -510,16 +510,17 @@
             randomX = random(0.3,0.7);
             usedX = (usedX + randomX) % 1
             randomZ = randomInt(50, 90);
-            scrollSpeed = (randomZ-50)/-80;   //0-10
+            scrollSpeed = (randomZ-50)/-60;   // 0-40 /-80
 
             let img = artworkTemplate.cloneNode();
 
             img.src = image.lowSrc;
-            img.style.top = usedY + "vw" ;
-            // img.style.top = `calc( ${usedY}vw + var(--scroll)*${scrollSpeed})`;
+            // img.style.top = usedY + "vw" ;
+            img.style.top = `calc( ${usedY}vw + var(--scroll)*${scrollSpeed} - ${usedY}vw*${scrollSpeed})`;
             img.style.left = `calc((100% - var(--imageWidth)) * ${usedX})` ;
             img.style.zIndex = randomZ-100;
-            img.style.transform = (`scale(${randomZ}%)`);
+            img.style.transform = `scale(${randomZ}%)`;
+            img.style.transition = "top 0.1s cubic-bezier(0.000, 0.500, 1.000, 0.500);";
 
             img.addEventListener('click', 
                 onClick => openImageViewer(image.HDSrc)
@@ -531,10 +532,10 @@
 
             illustrationSect.appendChild(img);
 
-            randomY = randomInt(18, 28);
+            randomY = randomInt(18, 24);
             usedY += randomY;
 
-            musicSect.style.top = usedY+20 + "vw";
+            musicSect.style.top = usedY+30 + "vw";
         })
         
         const updateScrollValue = (event) => {
