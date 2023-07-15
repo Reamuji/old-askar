@@ -11,7 +11,6 @@
     </script>
     <style>
         :root{
-            --statScroll: 0px;
             --sideMenuWidth: 30%;
             --galeryWidth: calc(100% - var(--sideMenuWidth));
             --scroll: 0px;
@@ -20,16 +19,18 @@
             --bgColor:#151215;
             --lineColor:#fff;
             
+            --statScroll: 0px;
             --normalImageWidth: 14vw;
         }
 
         body{
             background-color: var(--bgColor);
             color: white;
+            margin: 0;
             padding: 0;
             border: 0;
             /* overflow-x: hidden; */
-            width: 100vw;
+            width: 98vw;
             height: 100%;
         }
 
@@ -194,8 +195,8 @@
             /* aspect-ratio: 1/1; */
         }
         .dot {
-            height: 10vw;
-            width: 10vw;
+            height: 7vw;
+            width: 7vw;
             /* aspect-ratio: 1/1; */
             background-color: #fff;
             border-radius: 50%;
@@ -239,8 +240,21 @@
             position: absolute;
             bottom: 0%;
         }
-        
-
+        /* banner */
+        .bannerContainer{
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+            height: 35vh;
+            width: 100%;
+            white-space: nowrap;
+        }
+        .banner{
+            background-color: #151215;
+        }
+        .musicStart{
+            font-size: 2em;
+        }
         /* ============================================== SCROLLBAR ============================================== */
         ::-webkit-scrollbar {
             width: 10px;
@@ -348,26 +362,31 @@
                 width: 100%;
             }
             /* ============================================== DRAWING ============================================== */
+            .showOverflow{
+                width: 10%;
+                overflow: visible;
+            }
             .svgContainer{
                 margin: 0;
                 padding: 0;
                 position: absolute;
-                overflow: hidden;
                 z-index: -100;
+                height: 600vh;
+                width: 100vw;
                 top: 0;
                 right: 0;
             }
             svg{
                 background-color: var(--bgColor);
                 transform: scale(var(--svgScale)); /* Set the desired scale factor */
-                height: 500vh;
-                width: 100vw;
                 image-rendering: optimizeSpeed; /* Older versions of Chrome and Safari */
                 image-rendering: -moz-crisp-edges; /* Firefox */
                 image-rendering: -webkit-optimize-contrast; /* Webkit (Chrome, Safari) */
                 image-rendering: -o-crisp-edges; /* Opera */
                 image-rendering: pixelated; /*CSS4*/
                 -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+                height: 100%;
+                width: 100%;
             }
             polyline{
                 transform: scale(var(--svgScale)); /* Set the desired scale factor */
@@ -387,12 +406,14 @@
         }
     </style>
 </head>
-<body>
-    <div class="svgContainer">
-        <svg shape-rendering="crispEdges">
-            <polyline points=""
-            style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />
-        </svg>
+<body id="illustration">
+    <div class="hideOverflow">
+        <div class="svgContainer">
+            <svg shape-rendering="crispEdges">
+                <polyline points=""
+                style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />
+            </svg>
+        </div>
     </div>
     <div class="sideMenu desktop fixed">
         <img src="asset\video\scrabble.gif" style="opacity: 1;">
@@ -404,15 +425,29 @@
         </div>
         <div class="border">
             <div class="statsContainer">
-                <span class="stats">windowSize : 1080x720 | scrollDistance : 0px |  timeElapsed :  0s | section : works | sub-section : illustration | </span>
-                <span class="stats"></span>
-                <span class="stats"></span>
+                <span class="stats">
+                    windowSize : 1080x720 | scrollDistance : 0px |  timeElapsed :  0s | section : works | 
+                </span>
+                <span class="stats"></span><span class="stats"></span>
             </div>
         </div>
     </div>
 
     <div class="askarMTopCollection2010">
-        <div id="illustration" class="illustration"></div>
+        <div class="illustration"></div>
+        <div class="bannerContainer">
+            <div class="banner illustEndContainer">
+                <span class="illustEnd">end of illustration section | </span>
+                <span class="illustEnd"></span><span class="illustEnd"></span><span class="illustEnd"></span><span class="illustEnd"></span>
+                <span class="illustEnd"></span><span class="illustEnd"></span><span class="illustEnd"></span><span class="illustEnd"></span>
+            </div>
+            <div class="banner musicStartContainer">
+                <span class="musicStart">start of music section | </span>
+                <span class="musicStart"></span><span class="musicStart"></span><span class="musicStart"></span>
+                <span class="musicStart"></span><span class="musicStart"></span><span class="musicStart"></span>
+                <span class="musicStart"></span><span class="musicStart"></span><span class="musicStart"></span>
+            </div>
+        </div>
         <div id="music" class="music" style="position: absolute; top: 150vh; right: 0; height: 150vh;">
             Test Msuci
             <div class="musicEnd"></div>
@@ -494,8 +529,6 @@
         const addTrailingZeros = (num, totalLength) => String(num).padStart(totalLength, '0');
         let timeElapsed = 0;
         
-        // const musicY = () => document.querySelector('#music').getBoundingClientRect().top;
-        // const section = () => window.scrollY >= musicY() ? "music" : "illustration";
         let statScroll = 0;
 
         function currentTime(){
@@ -541,6 +574,28 @@
             },100)
         })
         
+        // ================================ banner scroller ================================
+        let bannerList = [".illustEnd",".musicStart"];
+        bannerList.forEach((bannerName,index,a)=>{
+                let spans = document.querySelectorAll(bannerName);
+                let mainSpan = spans[0];
+                let spanWidth = mainSpan.offsetWidth;
+                let spanText =  mainSpan.innerHTML;
+                let bannerScroll = randomInt(0,-50);
+                let container = mainSpan.parentNode;
+                // mainSpan.style.setProperty("--scroll", value);
+
+                spans.forEach(
+                    span => span.innerHTML = spanText
+                )
+                container.style.transform=`rotate(${index*16 - 8}deg) translate(var(--bannerScroll),12vh)`;
+                setInterval(()=>{
+                    spanWidth = mainSpan.offsetWidth;
+                    bannerScroll = (bannerScroll - (index+1)) % spanWidth;
+                    container.style.setProperty("--bannerScroll",bannerScroll+"px");
+                },50);
+            }
+        )
         // ================================ Smooth href ================================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -572,8 +627,9 @@
             })
         });
         // ================================ image galery ================================
-        let illustrationSect = document.querySelector('#illustration');
-        let musicSect = document.querySelector('#music');
+        let illustrationSect = document.querySelector('.illustration');
+        let musicSect = document.querySelector('.music');
+        let bannerContainer = document.querySelector('.bannerContainer');
         let artworkTemplate = document.createElement("img");
         let usedY = 0;
         let usedX = 0;
@@ -583,24 +639,28 @@
         let scrollSpeed = 0;
         let normalImgWidth = 40;//%
 
-        let musicSectOffset = 100 //vh
+        let musicSectOffset = 75 //vh
         
         let artwork = []
         for(let i=1;i<=10;i++){
             const j = {
-                lowSrc: `frontImage/${i}.webp`,
-                HDSrc: `frontImageHD/${i}.png`
+                lowSrc: `asset/frontImage/SD/${i}.webp`,
+                HDSrc: `asset/frontImage/UHD/${i}.webp`,
             };
             artwork.push(j);
         }
 
-        artworkTemplate.src = "frontImage/1.webp";
+        artworkTemplate.src = `asset/frontImage/SD/1.webp`,
         artworkTemplate.style.position = "absolute";
         artworkTemplate.style.top = usedY + "px" ;
         artworkTemplate.style.setProperty("--imageWidth", "40%"); //later set this to 1/aspect ratio = x/y * 40%
         artworkTemplate.style.width = "var(--imageWidth)";
         
-        randomY = randomInt(1, 4);
+        randomY = randomInt(1, 5);
+        console.log(`window.innerWidth = ${window.innerWidth}`)
+        if(window.innerWidth < 780){
+            randomY += 14
+        }
         usedY += randomY;
         artwork.forEach(image => {
             randomX = random(0.3,0.7);
@@ -632,47 +692,107 @@
             usedY += randomY;
 
             musicSect.style.top = `calc(${usedY}vw + ${musicSectOffset}vh)`;
+            bannerContainer.style.top = `calc(${usedY}vw + ${musicSectOffset/2}vh)`;
         })
         
         const updateScrollValue = (event) => {
             setValue('scroll', window.scrollY + "px");
         };
 
-        window.addEventListener("scroll", updateScrollValue);
+        window.addEventListener('scroll', updateScrollValue);
+        
+        // ================================ Music Gallery =============================
+        let youtubeId = ["PLBMNSwkiIM","bB5V2IFRsjI","nKrineJ8vOM","Lc7WfsGBBJ8","OuDHdk8zmMU","MM0JaLumZjo"]
+        let music = []
+        youtubeId.forEach(id => {
+            const j = {
+                youtubeLink : `https://youtu.be/${id}`,
+                SDImgSrc    : `https://img.youtube.com/vi/${id}/sddefault.jpg`,
+                HDImgSrc    : `https://img.youtube.com/vi/${id}/mqdefault.jpg`,
+                UHDImgSrc   : `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
+                FHDImgSrc   : `https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
+            };
+            music.push(j);
+        }
+            
+            // randomX = random(0.3,0.7);
+            // usedX = (usedX + randomX) % 1
+            // randomZ = randomInt(50, 90);
+            // scrollSpeed = (randomZ-50)/-40;   // 0-40 /-80
+
+            // let img = artworkTemplate.cloneNode();
+
+            // img.src = image.lowSrc;
+            // // img.style.top = usedY + "vw" ;
+            // img.style.top = `calc( ${usedY}vw + var(--scroll)*${scrollSpeed} - ${usedY}vw*${scrollSpeed})`;
+            // img.style.left = `calc((100% - var(--imageWidth)) * ${usedX})` ;
+            // img.style.zIndex = randomZ-100;
+            // img.style.transform = `scale(${randomZ}%)`;
+            // img.style.transition = "top 0.1s cubic-bezier(0.000, 0.500, 1.000, 0.500);";
+
+            // img.addEventListener('click', 
+            //     onClick => openImageViewer(image.HDSrc)
+            // );
+            // img.addEventListener('load',
+            // onLoad => { 
+            //     img.style.setProperty("--imageWidth", 45 * Math.sqrt(img.offsetWidth/img.offsetHeight) + "%");
+            // });
+
+            // illustrationSect.appendChild(img);
+
+            // randomY = randomInt(18, 24);
+            // usedY += randomY;
+
+            // musicSect.style.top = `calc(${usedY}vw + ${musicSectOffset}vh)`;
+            // bannerContainer.style.top = `calc(${usedY}vw + ${musicSectOffset/2}vh)`;
+        });
+        //https://img.youtube.com/vi/cGSNaQ8EoS0/sddefault.jpg
         
         // ================================ image full display ================================
         let roll = document.querySelector('.rotation');
         let illustScrollPercent = 0.0;
         const musicEnd = document.querySelector(".musicEnd");
-        window.addEventListener("scroll", ()=>{
-            let IllustrationHeight = usedY/100*window.innerWidth;
-            illustScrollPercent = window.scrollY / IllustrationHeight;
+        const illustrationHeight = () => usedY/100*window.innerWidth;
+        const sectionGap = () => musicSectOffset*window.innerHeight/100;
+
+        let illustRotDeg = 15;
+        let transisitionRotDeg = 75;
+        let musicRotDeg = 15;
+
+        window.addEventListener('scroll', ()=>{
+            let currentIllustrationHeight = illustrationHeight()
+            let currentSectionGap = sectionGap()
+            illustScrollPercent = window.scrollY / currentIllustrationHeight;
             if(illustScrollPercent <= 1){
-                roll.style.rotate = `${illustScrollPercent*30}deg`;
+                roll.style.rotate = `${illustScrollPercent*illustRotDeg}deg`;
                 return
             }
             
-            let sectionGap = musicSectOffset*window.innerHeight/100;
-            let toMusicScrollPercent = (window.scrollY - IllustrationHeight) / sectionGap;
+            let toMusicScrollPercent = (window.scrollY - currentIllustrationHeight) / currentSectionGap;
 
             if(toMusicScrollPercent <= 1){
-                roll.style.rotate = `${30 + toMusicScrollPercent*30}deg`;
+                roll.style.rotate = `${illustRotDeg + toMusicScrollPercent*transisitionRotDeg}deg`;
                 return
             }
             let musicHeight = musicEnd.offsetTop-window.innerHeight;
-            let MusicScrollPercent = (window.scrollY - IllustrationHeight - sectionGap) / musicHeight;
-
-            console.log(`window.scrollY = ${window.scrollY}`);
-            console.log(`musicHeight = ${musicHeight}`);
-            console.log(`MusicScrollPercent = ${MusicScrollPercent}`);
+            let MusicScrollPercent = (window.scrollY - currentIllustrationHeight - currentSectionGap) / musicHeight;
             
-            roll.style.rotate = `${60 + MusicScrollPercent*30}deg`;
+            roll.style.rotate = `${illustRotDeg + transisitionRotDeg + MusicScrollPercent*musicRotDeg}deg`;
+            document.querySelector('.svgContainer').style.height = `${musicEnd.offsetTop + currentIllustrationHeight + currentSectionGap}px`;
+            document.querySelector('svg').style.height = `${musicEnd.offsetTop + currentIllustrationHeight + currentSectionGap}px`;
         });
-
         
+        // ================================ mobile scroll button ================================
+        const musicY = () => document.querySelector('#music').getBoundingClientRect().top;
+        const destination = () => window.scrollY >= musicY() ? "#illustration" : "#music";
         const scrollCross = document.querySelector(".scrollCross");
+
         scrollCross.addEventListener('click', 
-            onClick => 1
+            onClick => {
+                document.querySelector(destination()).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
         );
         // ================================ image full display ================================
         let imageViewer = document.querySelector('.imgViewer');
@@ -753,15 +873,24 @@
             mousePos.forEach((coor) => {
                 formattedPos += `${coor[0]},${coor[1]} `;
             });
-            svg.innerHTML = `<polyline points="${formattedPos}" style="fill:none;stroke:var(--lineColor);stroke-width:0.5" shape-rendering="pixelated" />`;
+            svg.innerHTML = `
+            <polyline 
+                points="${formattedPos}" 
+                style='
+                    fill : none;
+                    stroke : var(--lineColor);
+                    stroke-width : 0.5;
+                    shape-rendering : "pixelated";
+                ' />
+            `;
         }
 
-        window.addEventListener("scroll", addMouseScrollPos);
-        window.addEventListener("mousemove", addMousePos);
-        window.addEventListener("mousedown", (evt)=>{
+        window.addEventListener('scroll', addMouseScrollPos);
+        window.addEventListener('mousemove', addMousePos);
+        window.addEventListener('mousedown', (evt)=>{
             mouseStillDown = true;
         });
-        window.addEventListener("mouseup", (evt)=>{
+        window.addEventListener('mouseup', (evt)=>{
             mouseStillDown = false;
         });
     </script>
