@@ -4,7 +4,7 @@
     <title>karunochi</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="logo\karunochi\other\iconLow.webp" />
+    <link rel="shortcut icon" type="image/x-icon" href="asset\logo\karunochi\other\iconLow.webp" />
     <script>
         const gambar_pas_diklik_aja = false;
         const waktu_ngilang = 4000;
@@ -55,7 +55,7 @@
             left: 50%;
             transform: translate(-50%,-50%);
         }
-        .bgOverlay{
+        .bgBlur{
             position: absolute;
             background-color:rgba(0,0,0,35%);
             height: 100%;
@@ -163,6 +163,100 @@
             z-index:100;
             transform-origin: top center;
         } */
+        /* scrollCross */
+        .scrollCross{
+            position: fixed;
+            top: 0%;
+            left: 50%;
+            width: 35vw;
+            aspect-ratio: 1/1;
+            transform: translate(-50%,-25%);
+            mix-blend-mode: difference;
+        }
+        .rollCenter{
+            position: fixed;
+            top: 0%;
+            left: 50%;
+            width: 35vw;
+            aspect-ratio: 1/1;
+            transform: translate(-50%,-25%);
+        }
+        .rotation{
+            width: 35vw;
+            height: 35vw;
+            /* rotate: 30deg; */
+            transform-origin: 0% 25%;
+        }
+
+        .rotation img{
+            height: 12vw;
+            width: 12vw;
+            /* aspect-ratio: 1/1; */
+        }
+        .dot {
+            height: 10vw;
+            width: 10vw;
+            /* aspect-ratio: 1/1; */
+            background-color: #fff;
+            border-radius: 50%;
+        }
+
+        .crossTop{
+            position: absolute;
+            top: 0;
+            
+            left: 50%;
+            translate: -50% -50%;
+        }
+        .crossBottom{
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+
+            translate: -50% 50%;
+        }
+        .crossLeft{
+            position: absolute;
+            left: 0;
+            
+            top: 50%;
+            translate: -50% -50%;
+        }
+        .crossRight{
+            position: absolute;
+            right: 0;
+            
+            top: 50%;
+            translate: 50% -50%;
+        }
+
+        .rotated.crossRight{
+            rotate: -90deg;
+        }
+
+        
+        .musicEnd{
+            position: absolute;
+            bottom: 0%;
+        }
+        
+
+        /* ============================================== SCROLLBAR ============================================== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0000; 
+            border-radius: 0px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fff7; 
+            border-radius: 100vw;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #fffa; 
+        }
+        
         /* ============================================== DESKTOP ============================================== */
         .desktop{ 
             display: none;/* hide on mobile*/
@@ -193,6 +287,12 @@
                 overflow: hidden;
             }
             /* ======================= background ======================= */
+            .bgDarken{
+                position: absolute;
+                background-color:rgba(0,0,0,50%);
+                height: 100%;
+                width: 100%;
+            }
             .sideMenu>img{
                 position: absolute;
                 height: 100%;
@@ -247,7 +347,6 @@
             .illustration{
                 width: 100%;
             }
-
             /* ============================================== DRAWING ============================================== */
             .svgContainer{
                 margin: 0;
@@ -275,22 +374,6 @@
                 z-index:1003;
             }
 
-            /* ============================================== SCROLLBAR ============================================== */
-            ::-webkit-scrollbar {
-                width: 10px;
-            }
-            ::-webkit-scrollbar-track {
-                background: #0000; 
-                border-radius: 0px;
-            }
-            ::-webkit-scrollbar-thumb {
-                background: #fff7; 
-                border-radius: 100vw;
-            }
-            ::-webkit-scrollbar-thumb:hover {
-                background: #fffa; 
-            }
-
             .illustration img{
                 transition: transform 0.5s ease-in-out;
                 transform-origin: center;
@@ -313,7 +396,7 @@
     </div>
     <div class="sideMenu desktop fixed">
         <img src="asset\video\scrabble.gif" style="opacity: 1;">
-        <!-- <div class="bgOverlay"></div> -->
+        <div class="bgDarken"></div>
         <div class="selectSection">
             <p class="bigger">works</p>
             <a href="#illustration">※illustration</a><br>
@@ -332,52 +415,62 @@
         <div id="illustration" class="illustration"></div>
         <div id="music" class="music" style="position: absolute; top: 150vh; right: 0; height: 150vh;">
             Test Msuci
+            <div class="musicEnd"></div>
         </div>
     </div>
 
+    <div class="scrollCross mobile">
+        <img class="rollCenter"src="asset\logo\Works Roll\scrollCross.png">
+        <div class="rotation rollCenter">
+            <img class="rotated crossBottom" src="asset\logo\Works Roll\roll-illustration.webp">
+            <img class="rotated crossRight" src="asset\logo\Works Roll\roll-music.webp">
+            <div class="rotated dot crossTop"></div>
+            <div class="rotated dot crossLeft"></div>
+        </div>
+    </div>
     <div class="buttonContainer">
         <div class="buttonSplitter">
             <button class="logoButton">
                 <div class="KRNC">
-                    <img src="logo\karunochi\other\LogoAnimation\cross.webp">
+                    <img src="asset\logo\karunochi\other\LogoAnimation\cross.webp">
                     <span class="KRNCmid vertical">
-                        <img src="logo\karunochi\other\LogoAnimation\LetterH.webp"   class="KRNChild logogram rotate">
-                        <img src="logo\karunochi\other\LogoAnimation\IconH.webp"     class="KRNChild logoIcon rotate">
+                        <img src="asset\logo\karunochi\other\LogoAnimation\LetterH.webp"   class="KRNChild logogram rotate">
+                        <img src="asset\logo\karunochi\other\LogoAnimation\IconH.webp"     class="KRNChild logoIcon rotate">
                     </span>
                     <span class="KRNCmid horizontal">
-                        <img src="logo\karunochi\other\LogoAnimation\LetterV.webp"   class="KRNChild logogram rotate">
-                        <img src="logo\karunochi\other\LogoAnimation\IconV.webp"     class="KRNChild logoIcon rotate">
+                        <img src="asset\logo\karunochi\other\LogoAnimation\LetterV.webp"   class="KRNChild logogram rotate">
+                        <img src="asset\logo\karunochi\other\LogoAnimation\IconV.webp"     class="KRNChild logoIcon rotate">
                     </span>
                 </div>
             </button>
             <button onclick="window.location.href = './index.html';">
-                <img class="mobile" src="logo\menuLogo\home.webp" alt="Home">
+                <img class="mobile" src="asset\logo\menuLogo\home.webp" alt="Home">
                 <span class="desktop">Home</span>
             </button>
             <button class="selectedButton">
-                <img class="mobile" src="logo\menuLogo\works.webp" alt="Works">
+                <img class="mobile" src="asset\logo\menuLogo\works.webp" alt="Works">
                 <span class="desktop">Works</span>
             </button>
             <button class="rightSideButton">
-                <img class="mobile" src="logo\menuLogo\contact.webp" alt="Contact">
+                <img class="mobile" src="asset\logo\menuLogo\contact.webp" alt="Contact">
                 <span class="desktop">Contact</span>
             </button>
             <button class="rightSideButton">
-                <img class="mobile" src="logo\menuLogo\commission.webp" alt="Commission">
+                <img class="mobile" src="asset\logo\menuLogo\commission.webp" alt="Commission">
                 <span class="desktop">Commission</span>
             </button>
         </div>
     </div>
     <div class="imgViewer hide">
-        <div class="bgOverlay"></div>
+        <div class="bgBlur"></div>
         <img class="imageWindow">
         <!-- <div class="viewerWindow">
             <button class="previousImage" onclick="">
-                <img class="mobile" src="" alt="Commission">
+                <img class="mobile" src="" alt="">
             </button>
             <img class="imageDisplay">
             <button class="previousImage" onclick="">
-                <img class="mobile" src="" alt="Commission">
+                <img class="mobile" src="" alt="">
             </button>
         </div> -->
     </div>
@@ -391,7 +484,8 @@
         const randomInt = (start,end) =>  Math.floor((start + Math.random() * (end-start)));
 
 
-        
+        // shared variable
+        let isOnImgViewer = false;
         // ================================ Stats updater ================================
         let stats = document.querySelectorAll('.stats');
         let statsContainer = document.querySelector('.statsContainer');
@@ -400,9 +494,9 @@
         const addTrailingZeros = (num, totalLength) => String(num).padStart(totalLength, '0');
         let timeElapsed = 0;
         
-        let musicY = () => document.querySelector('#music').getBoundingClientRect().top;
+        // const musicY = () => document.querySelector('#music').getBoundingClientRect().top;
+        // const section = () => window.scrollY >= musicY() ? "music" : "illustration";
         let statScroll = 0;
-        const section = () => window.scrollY >= musicY() ? "music" : "illustration";
 
         function currentTime(){
             let now = new Date();
@@ -489,6 +583,8 @@
         let scrollSpeed = 0;
         let normalImgWidth = 40;//%
 
+        let musicSectOffset = 100 //vh
+        
         let artwork = []
         for(let i=1;i<=10;i++){
             const j = {
@@ -510,7 +606,7 @@
             randomX = random(0.3,0.7);
             usedX = (usedX + randomX) % 1
             randomZ = randomInt(50, 90);
-            scrollSpeed = (randomZ-50)/-60;   // 0-40 /-80
+            scrollSpeed = (randomZ-50)/-40;   // 0-40 /-80
 
             let img = artworkTemplate.cloneNode();
 
@@ -535,7 +631,7 @@
             randomY = randomInt(18, 24);
             usedY += randomY;
 
-            musicSect.style.top = usedY+30 + "vw";
+            musicSect.style.top = `calc(${usedY}vw + ${musicSectOffset}vh)`;
         })
         
         const updateScrollValue = (event) => {
@@ -543,6 +639,41 @@
         };
 
         window.addEventListener("scroll", updateScrollValue);
+        
+        // ================================ image full display ================================
+        let roll = document.querySelector('.rotation');
+        let illustScrollPercent = 0.0;
+        const musicEnd = document.querySelector(".musicEnd");
+        window.addEventListener("scroll", ()=>{
+            let IllustrationHeight = usedY/100*window.innerWidth;
+            illustScrollPercent = window.scrollY / IllustrationHeight;
+            if(illustScrollPercent <= 1){
+                roll.style.rotate = `${illustScrollPercent*30}deg`;
+                return
+            }
+            
+            let sectionGap = musicSectOffset*window.innerHeight/100;
+            let toMusicScrollPercent = (window.scrollY - IllustrationHeight) / sectionGap;
+
+            if(toMusicScrollPercent <= 1){
+                roll.style.rotate = `${30 + toMusicScrollPercent*30}deg`;
+                return
+            }
+            let musicHeight = musicEnd.offsetTop-window.innerHeight;
+            let MusicScrollPercent = (window.scrollY - IllustrationHeight - sectionGap) / musicHeight;
+
+            console.log(`window.scrollY = ${window.scrollY}`);
+            console.log(`musicHeight = ${musicHeight}`);
+            console.log(`MusicScrollPercent = ${MusicScrollPercent}`);
+            
+            roll.style.rotate = `${60 + MusicScrollPercent*30}deg`;
+        });
+
+        
+        const scrollCross = document.querySelector(".scrollCross");
+        scrollCross.addEventListener('click', 
+            onClick => 1
+        );
         // ================================ image full display ================================
         let imageViewer = document.querySelector('.imgViewer');
         let imageWindow = document.querySelector('.imageWindow');
@@ -554,10 +685,25 @@
 
         function openImageViewer(imgSrc){
             imageViewer.classList.remove('hide');
+            imageWindow.src = "";
             imageWindow.src = imgSrc;
+            disableScroll();
         }
         function closeImageViewer(){
             imageViewer.classList.add('hide');
+            enableScroll();
+        }
+        function disableScroll() {
+            scrollTop = window.pageYOffset;
+            scrollLeft = window.pageXOffset;
+
+            window.onscroll = function() {
+                window.scrollTo(scrollLeft, scrollTop);
+            };
+        }
+
+        function enableScroll() {
+            window.onscroll = function() {};
         }
         // ================================ Line Drawing ================================
         const svg = document.querySelector('svg');
