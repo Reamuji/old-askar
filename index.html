@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>karunochi</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/x-icon" href="asset\logo\karunochi\other\iconLow.webp" />
+        <script>
+            const jumlahImageDepan = 10;
+        </script>
+        <style>
+            :root{
+                --scrollDuration:50s;
+                --tinggiPantulan:20%;
+                --blurPantulan:10px; /* makin gede makin blur*/
+                --usedWidth:100vw;   /* Buat ngatur lebar  layar gambar ngescroll | vw = % lebar  layar */
+                --usedHeight:80vh;  /* Buat ngatur tinggi layar gambar ngescroll | vh = % tinggi layar */
+                --gelapBg:20%;      /* % seberapa gelap scrolling image*/
+
+                --imgScrollX:0px;
+            }
+            body{
+                background-color: black;
+                color: white;
+                padding: 0;
+                border: 0;
+                overflow: hidden;
+                width: 100vw;
+                width: 100vh;
+            }
+            .askarMTopCollection2010{
+                width: var(--usedWidth);
+                height: var(--usedHeight);
+                overflow: hidden;
+                display: flex;
+                margin: 0% auto;
+                box-sizing: border-box;
+            }
+            .imgContainer{
+                height: 100%;
+                display: flex;
+                animation:scroll-left var(--scrollDuration) linear infinite;
+            }
+            .imgContainer img{
+                height: 100%;
+            }
+            @media (max-aspect-ratio: 1/1) {
+                .askarMTopCollection2010{
+                    display: grid;
+                }
+                .imgContainer{
+                    flex-direction: column;
+                    animation:scroll-up var(--scrollDuration) linear infinite;
+                    width: 100%;
+                }
+                .imgContainer img{
+                    width: 100%;
+                    height: auto;
+                }
+            }
+            @keyframes scroll-left{
+                0%{
+                    transform: translateX(0);
+                }
+                100%{
+                    transform: translateX(var(--imgScrollX));
+                }
+            }
+            @keyframes scroll-up{
+                0%{
+                    transform: translateY(0);
+                }
+                100%{
+                    transform: translateY(var(--imgScrollY));
+                }
+            }
+
+            #reflectContainer {
+                width: var(--usedWidth);
+                height: 20vh;
+                margin: 0 auto;
+                position: relative;
+            }
+            #reflection {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                transform: scaleY(-1) translate(0,var(--tinggiPantulan));
+                filter: blur(var(--blurPantulan));
+                /* -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(#0000), to(#0009)) */
+                mask-image: linear-gradient(to bottom, transparent, #0009);
+                -webkit-mask-image: linear-gradient(to bottom, transparent, #0009);
+		  	}
+            
+            .stack{
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100vw;
+            }
+            
+            .overlay{
+                background-color:rgba(0,0,0,var(--gelapBg));
+                height: 100%;
+                width: 100%;
+            }
+
+            #logo{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 80%;
+            }
+            #logo img{
+                max-width: 33%;
+                max-height: 20%;
+            }
+
+            #buttonContainer{
+                left: 50%;
+                transform: translateX(-50%);
+                min-width: 60vw;
+                background-color:#fff;
+                color: black;
+                border-radius: 100vh;
+                padding: 5px 20px;
+                position: absolute;
+                bottom: 5%;
+                /* mix-blend-mode: lighten; */
+            }
+            @media only screen and (max-width: 1200px) {
+                /* button containernya kalau udah gk muat tulisan */
+                #buttonContainer{
+                    width: 80%;
+                }
+            }
+            #buttonSplitter{
+                margin: 0 3vw;
+                display: flex;
+                border-radius: 50vh;
+                justify-content: space-between;
+            }
+            
+  
+            #buttonSplitter button {
+                font-family: "Noto Serif", serif;
+                font-weight: 900;    
+                color: #777;
+                font-size: min(25px,3vw,5vh);
+                background-color:#0000;
+                height: min(10vh,11vw);
+                border-color: #0000;
+            }
+            #buttonSplitter button:hover{
+                color: #000;
+            }
+            #selectedButton{
+                color: #000 !important;
+                font-weight: 1000 important;    
+            }
+            #logoButton{
+                width: min(75px,8vw,15vh);
+                position: relative;
+                display: inline-block;
+            }
+            #KRNC {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+            }
+            #KRNC img {
+                max-width: min(100%,6vh);
+                max-height: 100%;
+                object-fit: cover;
+                position: absolute;
+                transition: transform 500ms ease-in-out;
+            }
+            .horizontal{
+                clip-path: polygon(0 0, 100% 0, 50% 50%, 100% 100%, 0 100%, 50% 50%);
+                aspect-ratio: 1 / 1;
+            }
+            .vertical{
+                clip-path: polygon(100% 0, 100% 100%, 50% 50%, 0 100%, 0 0, 50% 50%);
+                aspect-ratio: 1 / 1;
+            }
+            .logoIcon{
+                transform:rotate(-90deg);
+            }
+            .KRNCmid{
+                display: flex;
+                position: absolute;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                max-height: 100%;
+                
+                aspect-ratio: 1 / 1;
+            }
+            button img{
+                width: min(50px,6vw,10vh);
+                aspect-ratio: 1 / 1;
+            }
+
+            .desktop{
+                display: none;
+            }
+            #logoButton{
+                order: 1;
+            }
+            .rightSideButton{
+                order: 2;
+            }
+            @media (min-width: 768px) {
+            /* On screens larger than 768px (desktop) */
+                .mobile{
+                    display: none;
+                }
+                .desktop{
+                    display: initial;
+                }
+                
+                #buttonSplitter button {
+                    height: 12vh;
+                }
+                #logoButton{
+                    order: -1;
+                }
+            }
+
+            </style>
+        </head>
+        <body>
+            <div class="stack">
+                <div class="askarMTopCollection2010">
+                    <div class="imgContainer"></div><div class="imgContainer"></div>
+                </div>
+                <div id="reflectContainer">
+                    <div id="reflection">
+                        <div class="askarMTopCollection2010">
+                            <div class="imgContainer"></div><div class="imgContainer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stack overlay">
+            </div>
+
+            <div class="stack">
+                <div id="logo">
+                    <img src="asset\logo\karunochi\white\Logotype (BG).webp">
+                </div>
+            </div>
+            <div class="stack">
+                <div id="buttonContainer">
+                    <div id="buttonSplitter">
+                        <button id="logoButton">
+                            <div id="KRNC">
+                                <img src="asset\logo\karunochi\other\LogoAnimation\cross.webp">
+                                <span class="KRNCmid vertical">
+                                    <img src="asset\logo\karunochi\other\LogoAnimation\LetterH.webp"   class="KRNChild logogram rotate">
+                                    <img src="asset\logo\karunochi\other\LogoAnimation\IconH.webp"     class="KRNChild logoIcon rotate">
+                                </span>
+                                <span class="KRNCmid horizontal">
+                                    <img src="asset\logo\karunochi\other\LogoAnimation\LetterV.webp"   class="KRNChild logogram rotate">
+                                    <img src="asset\logo\karunochi\other\LogoAnimation\IconV.webp"     class="KRNChild logoIcon rotate">
+                                </span>
+                            </div>
+                        </button>
+                        <button id="selectedButton">
+                            <img class="mobile" src="asset\logo\menuLogo\home.webp" alt="Home">
+                            <span class="desktop">Home</span>
+                        </button>
+                        <button onclick="window.location.href = './works.html';">
+                            <img class="mobile" src="asset\logo\menuLogo\works.webp" alt="Works">
+                            <span class="desktop">Works</span>
+                        </button>
+                        <button class="rightSideButton">
+                            <img class="mobile" src="asset\logo\menuLogo\contact.webp" alt="Contact">
+                            <span class="desktop">Contact</span>
+                        </button>
+                        <button class="rightSideButton">
+                            <img class="mobile" src="asset\logo\menuLogo\commission.webp" alt="Commission">
+                            <span class="desktop">Commission</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </body>
+    <script>
+        let root = document.documentElement;
+		const setValue = (varName,value) => root.style.setProperty(varName, value);
+        const getValue = (varName)       => getComputedStyle(root).getPropertyValue(varName);
+
+        let img = "";
+        let i=1;
+        for(let i=1;i<=jumlahImageDepan;i++){
+            let image = `asset/frontImage/SD/${i}.webp`
+            img += `
+                <img src="${image}">`
+        }
+
+        imgContainerList = Array.from(document.getElementsByClassName("imgContainer"));
+        imgContainerList.forEach(
+            imgContainer => {imgContainer.innerHTML = img});
+
+        let totalImgWidth = 0;
+        let totalImgHeight = 0;
+
+        // const topCollectionWidth = document.querySelector('#askarMTopCollection2010').offsetWidth;
+        function addTotalImgSize(imgWidth,imgHeight){
+            totalImgWidth += imgWidth;
+            setValue ('--imgScrollX',totalImgWidth*-1 + 'px');
+
+            totalImgHeight += imgHeight;
+            setValue ('--imgScrollY',totalImgHeight*-1 + 'px');
+        }
+        const images = document.querySelector('.imgContainer').querySelectorAll('img');
+        images.forEach(image=>{
+            image.addEventListener('load',
+                onLoad => { 
+                    addTotalImgSize(image.offsetWidth, image.offsetHeight);
+        })})
+
+        const recalculateImgWidth=()=>{
+            console.log("recalculate")
+            totalImgWidth = 0;
+            totalImgHeight = 0;
+            images.forEach(image=>{ 
+                addTotalImgSize(image.offsetWidth, image.offsetHeight);
+        })}
+        window.addEventListener('resize', recalculateImgWidth);
+        
+        const KRNC = document.querySelector('#KRNC')
+        const logogram = document.querySelectorAll('.logogram')
+        const logoIcon = document.querySelectorAll('.logoIcon')
+        KRNC.addEventListener('mouseover', () => {
+            logogram.forEach((img)=>{
+                img.style.transform = "rotate(90deg)";
+            })
+            logoIcon.forEach((img)=>{
+                img.style.transform = "rotate(0deg)";
+            })
+        });
+        KRNC.addEventListener('mouseout', () => {
+            logogram.forEach((img)=>{
+                img.style.transform = "rotate(0deg)";
+            })
+            logoIcon.forEach((img)=>{
+                img.style.transform = "rotate(-90deg)";
+            })
+        });
+    </script>
+</html>
