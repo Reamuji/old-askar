@@ -713,7 +713,7 @@
                 FHDImgSrc   : `https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
             };
             music.push(j);
-        }
+        });
             
             // randomX = random(0.3,0.7);
             // usedX = (usedX + randomX) % 1
@@ -745,7 +745,7 @@
 
             // musicSect.style.top = `calc(${usedY}vw + ${musicSectOffset}vh)`;
             // bannerContainer.style.top = `calc(${usedY}vw + ${musicSectOffset/2}vh)`;
-        });
+        // });
         //https://img.youtube.com/vi/cGSNaQ8EoS0/sddefault.jpg
         
         // ================================ image full display ================================
@@ -755,9 +755,9 @@
         const illustrationHeight = () => usedY/100*window.innerWidth;
         const sectionGap = () => musicSectOffset*window.innerHeight/100;
 
-        let illustRotDeg = 15;
-        let transisitionRotDeg = 75;
-        let musicRotDeg = 15;
+        let illustRotDeg = 20;
+        let transisitionRotDeg = 70;
+        let musicRotDeg = 20;
 
         window.addEventListener('scroll', ()=>{
             let currentIllustrationHeight = illustrationHeight()
